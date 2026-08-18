@@ -126,7 +126,7 @@ export const projects: Project[] = [
       "Architecting fullstack web applications, database architectures, server deployments, and interactive digital solutions for enterprise clients at SIDIGI.asia.",
     fullDescription:
       "As a Fullstack Web Developer at SIDIGI.asia (Malang, Indonesia), I engineer scalable web applications, content management systems, analytics dashboards, server environments, and RESTful API integrations built with Next.js, React, PHP, and MySQL.",
-    year: 2025,
+    year: 2026,
     role: "Fullstack Web Developer",
     technologies: [
       "Next.js",
