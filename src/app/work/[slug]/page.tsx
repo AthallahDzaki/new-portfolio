@@ -27,13 +27,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const projectUrl = `https://athallahdzaki.my.id/work/${project.slug}`;
+
   return {
-    title: `${project.title} — Athallah Dzaki`,
+    title: `${project.title} — Case Study by Athallah Dzaki`,
     description: project.description,
+    alternates: {
+      canonical: projectUrl,
+    },
     openGraph: {
-      title: `${project.title} — Athallah Dzaki`,
+      title: `${project.title} — Case Study by Athallah Dzaki`,
       description: project.description,
-      images: [{ url: project.image }],
+      url: projectUrl,
+      type: "article",
+      images: [
+        {
+          url: project.image,
+          width: 1200,
+          height: 630,
+          alt: project.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — Case Study by Athallah Dzaki`,
+      description: project.description,
+      images: [project.image],
     },
   };
 }
@@ -51,8 +71,35 @@ export default async function ProjectPage({ params }: PageProps) {
   const prevProject =
     projects[(projectIndex - 1 + projects.length) % projects.length];
 
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.title,
+    headline: project.subtitle || project.title,
+    description: project.description,
+    url: `https://athallahdzaki.my.id/work/${project.slug}`,
+    image: project.image,
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web Browser",
+    datePublished: `${project.year}-01-01`,
+    author: {
+      "@type": "Person",
+      name: "Athallah Dzaki Anggoro Seputro",
+      url: "https://athallahdzaki.my.id",
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
+
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-[#00F0FF]/30 safe-top safe-bottom">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+      />
       {/* Top Sticky Header */}
       <header className="sticky top-0 z-40 bg-[#050505]/90 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
