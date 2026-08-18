@@ -3,7 +3,6 @@
 import React, { useRef, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { heroVertexShader, heroFragmentShader } from "../shaders/noiseShader";
 import { usePerformance } from "@/context/PerformanceContext";
 
 interface HeroObjectProps {
@@ -12,35 +11,23 @@ interface HeroObjectProps {
 
 export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
   const ring2Ref = useRef<THREE.Mesh>(null);
+  const ring3Ref = useRef<THREE.Mesh>(null);
+  const ring4Ref = useRef<THREE.Mesh>(null);
   const particlesRef = useRef<THREE.Points>(null);
 
-  const { quality, segments, particlesCount } = usePerformance();
+  const { quality, particlesCount } = usePerformance();
   const { viewport, pointer } = useThree();
   const isMobile = viewport.width < 5.8;
 
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uDistortion: { value: distortion },
-      uPointer: { value: new THREE.Vector2(0, 0) },
-      uColorA: { value: new THREE.Color("#050508") },
-      uColorB: { value: new THREE.Color("#12121e") },
-      uAccentColor: { value: new THREE.Color("#00F0FF") },
-    }),
-    [distortion]
-  );
-
-  // Background Ambient Dust Particles adapted to quality
+  // Background Ambient Stardust Particles
   const { particlePositions, particleColors } = useMemo(() => {
-    const count = isMobile ? Math.floor(particlesCount * 0.5) : particlesCount;
+    const count = isMobile ? Math.floor(particlesCount * 0.45) : particlesCount;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
     const cyan = new THREE.Color("#00F0FF");
-    const purple = new THREE.Color("#7928CA");
+    const purple = new THREE.Color("#A855F7");
 
     for (let i = 0; i < count; i++) {
       const radius = 2.0 + Math.random() * 4.5;
@@ -60,88 +47,103 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
     return { particlePositions: positions, particleColors: colors };
   }, [particlesCount, isMobile]);
 
-  // Desktop right-side offset matching Image 1: X ≈ 1.7 to 1.9, Mobile: X = 0
+  // Desktop right-side framing offset: X ≈ 1.7 to 1.9, Mobile: X = 0
   const targetX = isMobile ? 0 : Math.min(Math.max(viewport.width * 0.22, 1.45), 1.9);
   const targetY = isMobile ? -0.1 : 0;
-  const scale = isMobile ? 1.25 : 1.75;
-  const segs = isMobile ? Math.floor(segments * 0.6) : segments;
+  const baseScale = isMobile ? 1.3 : 1.85;
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
 
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = t;
-      materialRef.current.uniforms.uDistortion.value = THREE.MathUtils.lerp(
-        materialRef.current.uniforms.uDistortion.value,
-        distortion,
-        0.05
-      );
-    }
-
-    if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.15;
-      meshRef.current.rotation.y += delta * 0.22;
-
-      // Subtle mouse tracking
-      const targetRotX = pointer.y * 0.2;
+    // Mouse parallax tracking on group
+    if (groupRef.current) {
+      const targetRotX = pointer.y * 0.15;
       const targetRotY = pointer.x * 0.2;
-      meshRef.current.rotation.x = THREE.MathUtils.lerp(
-        meshRef.current.rotation.x,
-        meshRef.current.rotation.x + targetRotX * 0.05,
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(
+        groupRef.current.rotation.x,
+        targetRotX,
         0.05
       );
-      meshRef.current.rotation.y = THREE.MathUtils.lerp(
-        meshRef.current.rotation.y,
-        meshRef.current.rotation.y + targetRotY * 0.05,
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(
+        groupRef.current.rotation.y,
+        targetRotY,
         0.05
       );
     }
 
+    // Outer Primary Ring (Cyan)
     if (ring1Ref.current) {
-      ring1Ref.current.rotation.z += delta * 0.3;
-      ring1Ref.current.rotation.x = Math.sin(t * 0.4) * 0.4;
+      ring1Ref.current.rotation.z += delta * 0.25 * distortion;
+      ring1Ref.current.rotation.x = Math.sin(t * 0.4) * 0.35;
     }
 
+    // Middle Gyroscopic Ring (Purple)
     if (ring2Ref.current) {
-      ring2Ref.current.rotation.y += delta * 0.35;
-      ring2Ref.current.rotation.z = Math.cos(t * 0.4) * 0.4;
+      ring2Ref.current.rotation.y += delta * 0.3 * distortion;
+      ring2Ref.current.rotation.z = Math.cos(t * 0.35) * 0.45;
     }
 
+    // Inner Core Ring (Cyan Neon)
+    if (ring3Ref.current) {
+      ring3Ref.current.rotation.x += delta * 0.35 * distortion;
+      ring3Ref.current.rotation.y = Math.sin(t * 0.5) * 0.5;
+    }
+
+    // Equator Ring (Subtle Starlight White)
+    if (ring4Ref.current) {
+      ring4Ref.current.rotation.z -= delta * 0.18 * distortion;
+    }
+
+    // Ambient Stardust Particles
     if (particlesRef.current) {
-      particlesRef.current.rotation.y += delta * 0.06;
-      particlesRef.current.rotation.x += delta * 0.03;
+      particlesRef.current.rotation.y += delta * 0.05;
+      particlesRef.current.rotation.x += delta * 0.02;
     }
   });
 
   return (
     <group ref={groupRef} position={[targetX, targetY, 0]}>
-      {/* Signature Organic Deforming Sphere */}
-      <mesh ref={meshRef} scale={scale}>
-        <sphereGeometry args={[1, segs, segs]} />
-        <shaderMaterial
-          ref={materialRef}
-          vertexShader={heroVertexShader}
-          fragmentShader={heroFragmentShader}
-          uniforms={uniforms}
-          transparent={true}
-          wireframe={false}
+      {/* 1. Outer Primary Quantum Ring (Cyan Neon) */}
+      <mesh ref={ring1Ref} scale={baseScale * 1.55} rotation={[Math.PI / 3.2, 0, 0]}>
+        <torusGeometry args={[1.0, 0.007, 12, isMobile ? 36 : 64]} />
+        <meshBasicMaterial
+          color="#00F0FF"
+          transparent
+          opacity={isMobile ? 0.35 : 0.55}
         />
       </mesh>
 
-      {/* Orbiting Quantum Neon Rings */}
-      <mesh ref={ring1Ref} scale={scale * 1.35} rotation={[Math.PI / 3, 0, 0]}>
-        <torusGeometry args={[1.0, 0.008, 12, 48]} />
-        <meshBasicMaterial color="#00F0FF" transparent opacity={0.35} />
+      {/* 2. Middle Gyroscopic Orbit Ring (Purple / Magenta) */}
+      <mesh ref={ring2Ref} scale={baseScale * 1.3} rotation={[0, Math.PI / 2.8, Math.PI / 4]}>
+        <torusGeometry args={[1.0, 0.006, 12, isMobile ? 36 : 64]} />
+        <meshBasicMaterial
+          color="#A855F7"
+          transparent
+          opacity={isMobile ? 0.3 : 0.45}
+        />
       </mesh>
 
-      {quality !== "eco" && (
-        <mesh ref={ring2Ref} scale={scale * 1.55} rotation={[0, Math.PI / 3, 0]}>
-          <torusGeometry args={[1.0, 0.006, 12, 48]} />
-          <meshBasicMaterial color="#7928CA" transparent opacity={0.25} />
-        </mesh>
-      )}
+      {/* 3. Inner Core Halo Ring (Cyan) */}
+      <mesh ref={ring3Ref} scale={baseScale * 1.05} rotation={[Math.PI / 2.2, Math.PI / 6, 0]}>
+        <torusGeometry args={[1.0, 0.006, 12, isMobile ? 32 : 56]} />
+        <meshBasicMaterial
+          color="#38BDF8"
+          transparent
+          opacity={isMobile ? 0.25 : 0.4}
+        />
+      </mesh>
 
-      {/* Ambient Particle Galaxy */}
+      {/* 4. Fine Equator Orbit Line (White Starlight) */}
+      <mesh ref={ring4Ref} scale={baseScale * 1.75} rotation={[Math.PI / 6, Math.PI / 3, 0]}>
+        <torusGeometry args={[1.0, 0.004, 8, isMobile ? 32 : 56]} />
+        <meshBasicMaterial
+          color="#FFFFFF"
+          transparent
+          opacity={isMobile ? 0.15 : 0.25}
+        />
+      </mesh>
+
+      {/* 5. Ambient Stardust Particle Galaxy */}
       <points ref={particlesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -154,10 +156,10 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={isMobile ? 0.022 : 0.028}
+          size={isMobile ? 0.02 : 0.026}
           vertexColors={true}
           transparent={true}
-          opacity={0.6}
+          opacity={0.55}
           blending={THREE.AdditiveBlending}
         />
       </points>
