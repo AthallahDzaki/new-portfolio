@@ -8,18 +8,36 @@ export function CustomCursor() {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    // Strictly disable custom cursor on mobile / touch devices (< 768px or coarse pointer)
+    const checkMobile = () => {
+      const isTouchOrSmall =
+        window.innerWidth < 768 ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        window.matchMedia("(hover: none)").matches;
+      setIsMobile(isTouchOrSmall);
+      return isTouchOrSmall;
+    };
+
+    if (checkMobile() || prefersReducedMotion) {
+      return;
+    }
+
+    const handleResize = () => {
+      checkMobile();
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 768) return;
       setPosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
     };
 
     const handleMouseEnter = () => {
-      setIsVisible(true);
+      if (window.innerWidth >= 768) setIsVisible(true);
     };
 
     const handleMouseLeave = () => {
@@ -27,6 +45,7 @@ export function CustomCursor() {
     };
 
     const handleMouseOver = (e: MouseEvent) => {
+      if (window.innerWidth < 768) return;
       const target = e.target as HTMLElement;
       if (
         target &&
@@ -45,42 +64,38 @@ export function CustomCursor() {
       }
     };
 
-    const handleTouchStart = () => {
-      setIsVisible(false);
-    };
-
+    window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseenter", handleMouseEnter);
     window.addEventListener("mouseleave", handleMouseLeave);
     window.addEventListener("mouseover", handleMouseOver);
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
 
     return () => {
+      window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseenter", handleMouseEnter);
       window.removeEventListener("mouseleave", handleMouseLeave);
       window.removeEventListener("mouseover", handleMouseOver);
-      window.removeEventListener("touchstart", handleTouchStart);
     };
   }, [isVisible, prefersReducedMotion]);
 
-  if (prefersReducedMotion || !isVisible) {
+  if (isMobile || prefersReducedMotion || !isVisible) {
     return null;
   }
 
-  // Outer ring radius = 16px (32px width), Dot radius = 3px (6px width)
+  // Outer ring radius = 17px (34px width), Dot radius = 3px (6px width)
   const RING_SIZE = 34;
   const DOT_SIZE = 6;
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none"
+      className="hidden md:block pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none"
       aria-hidden="true"
     >
       <AnimatePresence>
         {isVisible && (
           <>
-            {/* Outer Interactive Glowing Ring - Smooth Spring Follow */}
+            {/* Outer Interactive Glowing Ring - Desktop Only */}
             <motion.div
               className="fixed top-0 left-0 rounded-full border border-[#00F0FF]/70 pointer-events-none z-[9999]"
               style={{
