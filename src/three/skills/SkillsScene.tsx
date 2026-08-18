@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Skill, SkillCategory } from "@/types";
 import { SkillNode } from "./SkillNode";
@@ -20,9 +21,18 @@ export function SkillsScene({
   onSelectSkill,
 }: SkillsSceneProps) {
   const groupRef = useRef<THREE.Group>(null);
+  const { viewport } = useThree();
+
+  // Responsive scale: on narrow mobile screens (viewport.width < 6.4), scale down proportionally
+  // so the entire diamond width & height fits with generous margins on any smartphone!
+  const responsiveScale = viewport.width < 6.4 ? Math.min(viewport.width / 6.6, 0.9) : 1.0;
 
   return (
-    <group ref={groupRef} position={[0, 0, 0]}>
+    <group
+      ref={groupRef}
+      position={[0, 0, 0]}
+      scale={[responsiveScale, responsiveScale, responsiveScale]}
+    >
       <SkillConnections skills={skills} selectedSkill={selectedSkill} />
       {skills.map((skill) => {
         const isCat =

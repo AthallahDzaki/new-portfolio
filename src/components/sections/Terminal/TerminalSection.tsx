@@ -173,6 +173,28 @@ export function TerminalSection() {
           ))}
         </div>
 
+        {/* Quick Command Chips for Mobile & Fast Interaction */}
+        <div className="px-4 py-2.5 bg-black/60 border-t border-white/10 flex flex-wrap items-center gap-2 font-mono text-xs">
+          <span className="text-[11px] text-white/40 uppercase mr-1">QUICK:</span>
+          {["whoami", "skills", "projects", "contact", "help", "clear"].map((cmd) => (
+            <button
+              key={cmd}
+              type="button"
+              onClick={() => {
+                setInput(cmd);
+                // Trigger command execution immediately
+                setTimeout(() => {
+                  const form = document.querySelector("#terminal form") as HTMLFormElement;
+                  form?.requestSubmit();
+                }, 50);
+              }}
+              className="px-2.5 py-1 bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/10 text-white/70 hover:border-[#00F0FF] transition-all text-[11px] active:scale-95"
+            >
+              {cmd}
+            </button>
+          ))}
+        </div>
+
         {/* Terminal Input Form */}
         <form
           onSubmit={handleCommand}
