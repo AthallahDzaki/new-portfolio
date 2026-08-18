@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import {
   PlaygroundScene,
@@ -23,6 +24,8 @@ import {
   Layers,
   Flame,
   Radio,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 
 interface PlaygroundControlsState {
@@ -42,12 +45,27 @@ export function PlaygroundSection({
   onChangeControls,
 }: PlaygroundSectionProps) {
   const { quality, dpr } = usePerformance();
+  const controlsRef = useRef<any>(null);
   const [geometryType, setGeometryType] = useState<GeometryType>("torus");
   const [shaderMode, setShaderMode] = useState<ShaderVisualMode>("holographic");
   const [particlesCount, setParticlesCount] = useState(quality === "eco" ? 250 : 500);
   const [pulseActive, setPulseActive] = useState(true);
   const [explodeAmount, setExplodeAmount] = useState(0.0);
   const [resetKey, setResetKey] = useState(0);
+
+  const handleZoom = (delta: number) => {
+    if (controlsRef.current) {
+      const camera = controlsRef.current.object;
+      if (camera) {
+        camera.position.z = THREE.MathUtils.clamp(
+          camera.position.z + delta,
+          2.5,
+          9.5
+        );
+        controlsRef.current.update();
+      }
+    }
+  };
 
   const themes = [
     { name: "Cyan", color: "#00F0FF" },
@@ -234,10 +252,15 @@ export function PlaygroundSection({
               <directionalLight position={[0, 6, 2]} intensity={1.5} />
 
               <OrbitControls
-                enableZoom={false}
-                enablePan={false}
+                ref={controlsRef}
+                enableZoom={true}
+                enablePan={true}
+                zoomSpeed={0.8}
+                panSpeed={0.8}
                 rotateSpeed={0.7}
                 dampingFactor={0.08}
+                minDistance={2.2}
+                maxDistance={10.0}
               />
 
               <Suspense fallback={null}>
@@ -254,6 +277,35 @@ export function PlaygroundSection({
                 />
               </Suspense>
             </Canvas>
+          </div>
+
+          {/* Interactive Floating Quick Zoom / Nav Pad */}
+          <div className="absolute top-14 right-4 z-20 flex flex-col gap-1.5 bg-[#0a0a0d]/90 border border-white/15 p-1.5 shadow-xl font-mono text-[10px]">
+            <button
+              onClick={() => handleZoom(-0.6)}
+              className="p-2 bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/10 text-white/80 transition-colors flex items-center justify-center min-h-[36px] min-w-[36px]"
+              title="Zoom In (+)"
+              aria-label="Zoom in 3D scene"
+            >
+              <ZoomIn className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => handleZoom(0.6)}
+              className="p-2 bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/10 text-white/80 transition-colors flex items-center justify-center min-h-[36px] min-w-[36px]"
+              title="Zoom Out (-)"
+              aria-label="Zoom out 3D scene"
+            >
+              <ZoomOut className="w-3.5 h-3.5" />
+            </button>
+            <div className="w-full h-px bg-white/10 my-0.5" />
+            <button
+              onClick={() => setResetKey((k) => k + 1)}
+              className="p-2 bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/10 text-white/80 transition-colors flex items-center justify-center min-h-[36px] min-w-[36px]"
+              title="Reset 3D View"
+              aria-label="Reset 3D view"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           {/* Bottom HUD bar & Controls */}

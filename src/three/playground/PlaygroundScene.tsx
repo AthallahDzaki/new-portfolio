@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useMemo, useEffect } from "react";
-import { useFrame } from "@react-three/fiber";
+import React, { useRef, useMemo } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { usePerformance } from "@/context/PerformanceContext";
 
@@ -32,6 +32,9 @@ export function PlaygroundScene({
   explodeAmount,
 }: PlaygroundSceneProps) {
   const { quality } = usePerformance();
+  const { viewport } = useThree();
+  const isMobile = viewport.width < 5.8 || quality === "eco";
+
   const meshRef = useRef<THREE.Mesh>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
   const ring2Ref = useRef<THREE.Mesh>(null);
@@ -41,27 +44,34 @@ export function PlaygroundScene({
   // Store original geometry vertex positions for real-time deformation
   const originalPositions = useRef<Float32Array | null>(null);
 
-  // Create base geometry based on geometryType
+  // Create lightweight adaptive base geometry based on geometryType & mobile mode
   const baseGeometry = useMemo(() => {
     let geom: THREE.BufferGeometry;
     if (geometryType === "torus") {
-      geom = new THREE.TorusKnotGeometry(0.85, 0.28, 128, 32, 2, 3);
+      geom = new THREE.TorusKnotGeometry(
+        0.85,
+        0.28,
+        isMobile ? 64 : 112,
+        isMobile ? 18 : 30,
+        2,
+        3
+      );
     } else if (geometryType === "icosahedron") {
-      geom = new THREE.IcosahedronGeometry(1.25, 1);
+      geom = new THREE.IcosahedronGeometry(1.25, isMobile ? 0 : 1);
     } else if (geometryType === "sphere") {
-      geom = new THREE.SphereGeometry(1.15, 48, 48);
+      geom = new THREE.SphereGeometry(1.15, isMobile ? 28 : 44, isMobile ? 28 : 44);
     } else if (geometryType === "vortex") {
-      geom = new THREE.TorusGeometry(1.05, 0.38, 32, 64);
+      geom = new THREE.TorusGeometry(1.05, 0.38, isMobile ? 20 : 30, isMobile ? 36 : 56);
     } else {
       // saturn
-      geom = new THREE.SphereGeometry(0.9, 40, 40);
+      geom = new THREE.SphereGeometry(0.9, isMobile ? 24 : 36, isMobile ? 24 : 36);
     }
 
     // Save copy of pristine vertex positions
     const pos = geom.attributes.position.array;
     originalPositions.current = new Float32Array(pos);
     return geom;
-  }, [geometryType]);
+  }, [geometryType, isMobile]);
 
   // Secondary complementary color
   const secondaryColor = useMemo(() => {
@@ -71,9 +81,9 @@ export function PlaygroundScene({
     return new THREE.Color().setHSL((hsl.h + 0.5) % 1.0, 0.9, 0.6);
   }, [colorTheme]);
 
-  // Galaxy Particle Cloud
+  // Galaxy Particle Cloud (Optimized for Mobile)
   const { particlePositions, particleColors } = useMemo(() => {
-    const count = particlesCount;
+    const count = isMobile ? Math.min(particlesCount, 120) : particlesCount;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
     const baseColor = new THREE.Color(colorTheme);
@@ -93,7 +103,7 @@ export function PlaygroundScene({
     }
 
     return { particlePositions: positions, particleColors: colors };
-  }, [particlesCount, colorTheme]);
+  }, [particlesCount, colorTheme, isMobile]);
 
   // Real-time Vertex Noise Deformation, Pulse & Dispersal Loop
   useFrame((state, delta) => {
@@ -104,9 +114,11 @@ export function PlaygroundScene({
       meshRef.current.rotation.x += delta * 0.35 * speed;
       meshRef.current.rotation.y += delta * 0.5 * speed;
 
-      // Real-time procedural vertex distortion on the active geometry
+      // Real-time procedural vertex distortion on active geometry
+      const isDeforming = distortion > 0.05 || pulseActive || explodeAmount > 0.01;
       const geom = meshRef.current.geometry;
-      if (geom && originalPositions.current) {
+
+      if (geom && originalPositions.current && isDeforming) {
         const posAttr = geom.attributes.position;
         const count = posAttr.count;
         const orig = originalPositions.current;
@@ -130,7 +142,7 @@ export function PlaygroundScene({
           // Pulse heartbeat
           const pulse = pulseActive ? Math.sin(t * 4.5) * 0.12 : 0.0;
 
-          // Total normal displacement (distortion + pulse + explode)
+          // Total normal displacement
           const disp = wave * distortion * 0.3 + pulse + explodeAmount * 0.75;
 
           posAttr.setXYZ(i, ox + nx * disp, oy + ny * disp, oz + nz * disp);
@@ -221,7 +233,7 @@ export function PlaygroundScene({
           rotation={[Math.PI / 2.6, 0, 0]}
           scale={1.65}
         >
-          <ringGeometry args={[1.15, 1.85, 48]} />
+          <ringGeometry args={[1.15, 1.85, isMobile ? 32 : 48]} />
           <meshStandardMaterial
             color={colorTheme}
             emissive={colorTheme}
@@ -236,7 +248,7 @@ export function PlaygroundScene({
 
       {/* 3. Orbiting Quantum Halo Rings */}
       <mesh ref={ring1Ref} scale={2.4}>
-        <torusGeometry args={[1.0, 0.015, 12, 48]} />
+        <torusGeometry args={[1.0, 0.015, 8, isMobile ? 32 : 48]} />
         <meshBasicMaterial
           color={colorTheme}
           transparent
@@ -245,7 +257,7 @@ export function PlaygroundScene({
       </mesh>
 
       <mesh ref={ring2Ref} scale={2.75} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.0, 0.012, 12, 48]} />
+        <torusGeometry args={[1.0, 0.012, 8, isMobile ? 32 : 48]} />
         <meshBasicMaterial
           color={secondaryColor}
           transparent
@@ -266,7 +278,7 @@ export function PlaygroundScene({
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.038}
+          size={isMobile ? 0.032 : 0.038}
           vertexColors={true}
           transparent={true}
           opacity={0.85}
