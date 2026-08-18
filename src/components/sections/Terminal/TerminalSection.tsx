@@ -100,9 +100,11 @@ export function TerminalSection() {
         output = (
           <div className="space-y-1 text-white/80">
             <p className="text-[#00F0FF]">LET&apos;S CONNECT:</p>
+            <p>Email: athallahdzaki@gmail.com</p>
+            <p>LinkedIn: linkedin.com/in/athallah-dzaki/</p>
+            <p>Instagram: instagram.com/athallah_dzaki</p>
+            <p>TikTok: tiktok.com/@athallah.dzaki</p>
             <p>GitHub: github.com/AthallahDzaki</p>
-            <p>LinkedIn: linkedin.com/in/athallah-dzaki</p>
-            <p>Email: athallahdzaki@example.com</p>
           </div>
         );
         break;

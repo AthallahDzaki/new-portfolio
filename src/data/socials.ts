@@ -9,20 +9,26 @@ export const socials: SocialLink[] = [
   },
   {
     name: "LinkedIn",
-    url: "https://linkedin.com/in/athallah-dzaki",
+    url: "https://www.linkedin.com/in/athallah-dzaki/",
     label: "linkedin.com/in/athallah-dzaki",
     icon: "linkedin",
   },
   {
     name: "Email",
-    url: "mailto:athallahdzaki@example.com",
-    label: "athallahdzaki@example.com",
+    url: "mailto:athallahdzaki@gmail.com",
+    label: "athallahdzaki@gmail.com",
     icon: "mail",
   },
   {
     name: "Instagram",
-    url: "https://instagram.com/athallahdzaki",
-    label: "@athallahdzaki",
+    url: "https://www.instagram.com/athallah_dzaki",
+    label: "@athallah_dzaki",
     icon: "instagram",
+  },
+  {
+    name: "TikTok",
+    url: "https://www.tiktok.com/@athallah.dzaki",
+    label: "@athallah.dzaki",
+    icon: "video",
   },
 ];
