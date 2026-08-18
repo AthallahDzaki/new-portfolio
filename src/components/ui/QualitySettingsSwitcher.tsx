@@ -13,19 +13,19 @@ export function QualitySettingsSwitcher() {
       id: "eco",
       label: "ECO (60 FPS)",
       icon: <Zap className="w-3 h-3 text-emerald-400" />,
-      desc: "Super ringan, konsumsi baterai & GPU minimal.",
+      desc: "Ultra lightweight, minimal battery & GPU overhead.",
     },
     {
       id: "balanced",
       label: "BALANCED",
       icon: <ShieldCheck className="w-3 h-3 text-[#00F0FF]" />,
-      desc: "Keseimbangan visual & performa optimal.",
+      desc: "Optimal balance between visual fidelity and performance.",
     },
     {
       id: "ultra",
       label: "ULTRA FX",
       icon: <Flame className="w-3 h-3 text-amber-400" />,
-      desc: "Efek visual maksimal & partikel penuh.",
+      desc: "Maximum visual fidelity, high particle density & FX.",
     },
   ];
 
@@ -34,7 +34,7 @@ export function QualitySettingsSwitcher() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/15 text-white/80 hover:text-white transition-colors"
-        title="Pengaturan Kualitas Grafis (Graphics Settings)"
+        title="Graphics Quality Settings"
         aria-label="Graphics quality settings"
       >
         <SlidersHorizontal className="w-3 h-3 text-[#00F0FF]" />
