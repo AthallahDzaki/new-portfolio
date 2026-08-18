@@ -62,9 +62,9 @@ export function TerminalSection() {
         output = (
           <div className="space-y-1 text-white/80">
             <p className="text-white font-semibold">Athallah Dzaki Anggoro Seputro</p>
-            <p className="text-white/60">Creative Developer & Frontend Web Engineer</p>
-            <p className="text-white/60">Based in Malang, Indonesia · Studying at ITN Malang · Working at SIDIGI.asia</p>
-            <p className="text-white/60">Creator of SA-Chaos.id (Classic, Definitive, Find The Route) & WebGL 3D Developer.</p>
+            <p className="text-white/60">Creative Fullstack Developer & WebGL Engineer</p>
+            <p className="text-white/60">Based in Malang, Indonesia · Studying at ITN Malang · Fullstack Developer at SIDIGI.asia</p>
+            <p className="text-white/60">Founder of SA-Chaos.id (Classic, Definitive, Find The Route) & WebGL 3D Developer.</p>
           </div>
         );
         break;

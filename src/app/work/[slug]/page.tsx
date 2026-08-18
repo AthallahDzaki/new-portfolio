@@ -179,8 +179,36 @@ export default async function ProjectPage({ params }: PageProps) {
           <div className="md:col-span-4 font-mono text-xs uppercase tracking-widest text-[#00F0FF]">
             {"01 // OVERVIEW & PURPOSE"}
           </div>
-          <div className="md:col-span-8 space-y-4 text-white/80 font-light text-base sm:text-lg leading-relaxed">
-            <p>{project.fullDescription || project.description}</p>
+          <div className="md:col-span-8 space-y-5 text-white/80 font-light text-base sm:text-lg leading-relaxed">
+            {(project.fullDescription || project.description)
+              .split("\n\n")
+              .map((block, idx) => {
+                if (block.startsWith("•") || block.startsWith("-")) {
+                  const parts = block.replace(/^[•-]\s*/, "").split(":");
+                  return (
+                    <div
+                      key={idx}
+                      className="p-4 bg-white/[0.03] border border-white/10 border-l-2 border-l-[#00F0FF] rounded-none my-2"
+                    >
+                      {parts.length > 1 ? (
+                        <p className="text-sm sm:text-base">
+                          <strong className="text-[#00F0FF] font-semibold">
+                            {parts[0]}:
+                          </strong>{" "}
+                          <span className="text-white/80">{parts.slice(1).join(":")}</span>
+                        </p>
+                      ) : (
+                        <p className="text-sm sm:text-base text-white/80">{block}</p>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <p key={idx} className="text-base sm:text-lg text-white/85 leading-relaxed">
+                    {block}
+                  </p>
+                );
+              })}
           </div>
         </section>
 

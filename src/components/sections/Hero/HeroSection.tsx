@@ -62,7 +62,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.15)]">
             <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block" />
-            <span>Creative WebGL & Three.js Engineer</span>
+            <span>Creative Fullstack & Three.js Engineer</span>
           </div>
 
           <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/10 text-white/50 font-mono text-xs uppercase tracking-wider">

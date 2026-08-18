@@ -130,15 +130,16 @@ export function SkillsSection({
           <div className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
             <Canvas
               key={resetKey}
-              camera={{ position: [0, 0, 5.0], fov: 38 }}
+              camera={{ position: [0, 0, 5.5], fov: 36 }}
               dpr={dpr}
               gl={{
                 antialias: quality !== "eco",
-                alpha: true,
+                alpha: false,
                 powerPreference: "low-power",
               }}
             >
-              <ambientLight intensity={0.8} />
+              <color attach="background" args={["#070709"]} />
+              <ambientLight intensity={0.9} />
               <pointLight position={[0, 3, 3]} intensity={2.2} color="#00F0FF" />
               <pointLight position={[-3, -2, 2]} intensity={1.5} color="#7928CA" />
               <pointLight position={[3, -2, 2]} intensity={1.5} color="#00F0FF" />

@@ -9,27 +9,27 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 const PILLARS = [
   {
     icon: Code,
-    title: "Creative Coding & 3D",
+    title: "Creative Coding & 3D WebGL",
     description:
-      "Membangun WebGL shaders, Three.js 3D web applications, MMD Animation loaders, dan game interaktif real-time.",
+      "Crafting bespoke WebGL shaders, Three.js 3D web applications, MMD motion loaders, and real-time interactive canvases.",
   },
   {
     icon: Zap,
     title: "High-Performance Systems",
     description:
-      "Menargetkan 60 FPS di perangkat smartphone low-end maupun desktop melalui optimasi GPU, memoization, dan lightweight rendering.",
+      "Targeting 60 FPS across low-power mobile smartphones and high-end workstations with adaptive DPR and memory management.",
   },
   {
     icon: Layers,
-    title: "Modern Fullstack Web",
+    title: "Fullstack Web & Servers",
     description:
-      "Mengembangkan arsitektur Next.js & React type-safe, WebSocket real-time event streaming, dan integrasi API yang tangguh.",
+      "Architecting scalable Next.js & React architectures, PHP backend services, MySQL databases, Linux servers, and real-time WebSockets.",
   },
   {
     icon: Compass,
-    title: "Real-World Engineering",
+    title: "Proven Production Engineering",
     description:
-      "Pengalaman nyata mengembangkan produk production seperti SA-Chaos.id, solusi web di SIDIGI.asia, dan arthabonsai.com.",
+      "Demonstrated track record engineering production platforms: SA-Chaos.id ecosystem, enterprise client solutions at SIDIGI.asia, and arthabonsai.com.",
   },
 ];
 
@@ -71,11 +71,11 @@ export function AboutSection() {
           </h2>
 
           <p className="text-lg sm:text-xl text-white/80 font-light leading-relaxed">
-            A Creative Developer and Frontend Web Engineer based in <span className="text-white font-medium">Malang, Indonesia</span>. Currently pursuing Computer Science at <span className="text-[#00F0FF] font-medium">ITN Malang</span> and working as a Frontend Developer at <span className="text-[#00F0FF] font-medium">SIDIGI.asia</span>.
+            A Creative Fullstack Developer & WebGL Engineer based in <span className="text-white font-medium">Malang, Indonesia</span>. Currently pursuing Computer Science at <span className="text-[#00F0FF] font-medium">ITN Malang</span> and working as a Fullstack Web Developer at <span className="text-[#00F0FF] font-medium">SIDIGI.asia</span>.
           </p>
 
           <p className="text-sm sm:text-base text-white/60 font-light leading-relaxed">
-            Spesialis dalam menghubungkan rekayasa web modern (<span className="text-white font-medium">Next.js & React</span>) dengan grafika 3D interaktif (<span className="text-white font-medium">Three.js & WebGL</span>). Saya juga merupakan founder dan lead developer dari platform <a href="https://sa-chaos.id" target="_blank" rel="noopener noreferrer" className="text-[#00F0FF] underline hover:text-white transition-colors">SA-Chaos.id</a>—ekosistem mod interaktif GTA San Andreas untuk streamer TikTok dengan ratusan efek real-time.
+            Specializing in bridging modern fullstack web engineering (<span className="text-white font-medium">Next.js, React, PHP, MySQL, Linux Server Management</span>) with immersive 3D graphics (<span className="text-white font-medium">Three.js, WebGL & GLSL Shaders</span>). I am also the founder and lead developer of <a href="https://sa-chaos.id" target="_blank" rel="noopener noreferrer" className="text-[#00F0FF] underline hover:text-white transition-colors">SA-Chaos.id</a>—a real-time interactive GTA San Andreas livestreaming mod platform.
           </p>
 
           {/* Quick Info Grid */}
@@ -90,9 +90,9 @@ export function AboutSection() {
             <div>
               <div className="text-white/40 uppercase mb-1 flex items-center gap-1.5">
                 <Briefcase className="w-3 h-3 text-[#00F0FF]" />
-                WORK
+                WORKPLACE
               </div>
-              <div className="text-[#00F0FF] font-medium">SIDIGI.asia</div>
+              <div className="text-[#00F0FF] font-medium">SIDIGI.asia (Fullstack)</div>
             </div>
             <div className="col-span-2 sm:col-span-1">
               <div className="text-white/40 uppercase mb-1 flex items-center gap-1.5">

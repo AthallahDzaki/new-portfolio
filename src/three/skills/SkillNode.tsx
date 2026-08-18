@@ -65,19 +65,13 @@ export function SkillNode({
 
   const active = isSelected || hovered || isCategoryHighlighted;
 
-  // Clean tag offset
+  // Clean label offsets ensuring zero overlaps
   const labelOffset: [number, number, number] =
-    skill.id === "threejs" || skill.id === "postgresql" || skill.id === "figma"
-      ? [0, 0.28, 0]
-      : skill.id === "gsap" || skill.id === "typescript"
-      ? [0, -0.28, 0]
-      : skill.id === "r3f"
-      ? [-0.12, 0.25, 0]
-      : skill.id === "glsl"
-      ? [0.12, 0.25, 0]
+    skill.id === "threejs" || skill.id === "postgresql" || skill.id === "figma" || skill.id === "r3f" || skill.id === "glsl"
+      ? [0, 0.24, 0]
       : skill.id === "tailwind"
-      ? [0.12, -0.25, 0]
-      : [0, -0.32, 0];
+      ? [0.15, -0.22, 0]
+      : [0, -0.24, 0];
 
   return (
     <group position={[initialPos[0], initialPos[1], initialPos[2]]}>
