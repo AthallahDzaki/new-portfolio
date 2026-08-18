@@ -127,7 +127,7 @@ export function SkillNode({
         position={labelOffset}
         center
         distanceFactor={7.5}
-        zIndexRange={[100, 0]}
+        zIndexRange={[10, 0]}
         style={{ pointerEvents: "none" }}
       >
         <div

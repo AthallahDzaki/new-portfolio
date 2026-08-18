@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -51,16 +51,24 @@ export function CustomCursor() {
     return null;
   }
 
+  // Outer ring radius = 16px (32px width), Dot radius = 3px (6px width)
+  const RING_SIZE = 32;
+  const DOT_SIZE = 6;
+
   return (
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-      {/* Outer Ring */}
+      {/* Outer Ring - Exactly centered on pointer */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#00F0FF]/60 pointer-events-none -translate-x-1/2 -translate-y-1/2 z-50"
+        className="fixed top-0 left-0 rounded-full border border-[#00F0FF]/60 pointer-events-none z-50"
+        style={{
+          width: RING_SIZE,
+          height: RING_SIZE,
+        }}
         animate={{
-          x: position.x,
-          y: position.y,
-          scale: isHovered ? 1.6 : 1.0,
-          borderColor: isHovered ? "#00F0FF" : "rgba(0, 240, 255, 0.4)",
+          x: position.x - RING_SIZE / 2,
+          y: position.y - RING_SIZE / 2,
+          scale: isHovered ? 1.5 : 1.0,
+          borderColor: isHovered ? "#00F0FF" : "rgba(0, 240, 255, 0.45)",
           backgroundColor: isHovered ? "rgba(0, 240, 255, 0.15)" : "transparent",
         }}
         transition={{
@@ -70,12 +78,17 @@ export function CustomCursor() {
           mass: 0.1,
         }}
       />
-      {/* Center Dot */}
+
+      {/* Center Dot - Exactly centered in the outer ring */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-[#00F0FF] pointer-events-none -translate-x-1/2 -translate-y-1/2 z-50 shadow-[0_0_8px_#00F0FF]"
+        className="fixed top-0 left-0 rounded-full bg-[#00F0FF] pointer-events-none z-50 shadow-[0_0_8px_#00F0FF]"
+        style={{
+          width: DOT_SIZE,
+          height: DOT_SIZE,
+        }}
         animate={{
-          x: position.x,
-          y: position.y,
+          x: position.x - DOT_SIZE / 2,
+          y: position.y - DOT_SIZE / 2,
         }}
         transition={{
           type: "spring",
