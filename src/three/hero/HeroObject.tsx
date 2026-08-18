@@ -11,6 +11,7 @@ interface HeroObjectProps {
 }
 
 export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
+  const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
@@ -19,7 +20,7 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
 
   const { quality, segments, particlesCount } = usePerformance();
   const { viewport, pointer } = useThree();
-  const isMobile = viewport.width < 5;
+  const isMobile = viewport.width < 5.8;
 
   const uniforms = useMemo(
     () => ({
@@ -59,6 +60,12 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
     return { particlePositions: positions, particleColors: colors };
   }, [particlesCount, isMobile]);
 
+  // Desktop right-side offset matching Image 1: X ≈ 1.7 to 1.9, Mobile: X = 0
+  const targetX = isMobile ? 0 : Math.min(Math.max(viewport.width * 0.22, 1.45), 1.9);
+  const targetY = isMobile ? -0.1 : 0;
+  const scale = isMobile ? 1.25 : 1.75;
+  const segs = isMobile ? Math.floor(segments * 0.6) : segments;
+
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
 
@@ -75,9 +82,9 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
       meshRef.current.rotation.x += delta * 0.15;
       meshRef.current.rotation.y += delta * 0.22;
 
-      // Mouse tracking
-      const targetRotX = pointer.y * 0.25;
-      const targetRotY = pointer.x * 0.25;
+      // Subtle mouse tracking
+      const targetRotX = pointer.y * 0.2;
+      const targetRotY = pointer.x * 0.2;
       meshRef.current.rotation.x = THREE.MathUtils.lerp(
         meshRef.current.rotation.x,
         meshRef.current.rotation.x + targetRotX * 0.05,
@@ -106,11 +113,8 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
     }
   });
 
-  const scale = isMobile ? 1.35 : 1.85;
-  const segs = isMobile ? Math.floor(segments * 0.6) : segments;
-
   return (
-    <group position={[0, 0, 0]}>
+    <group ref={groupRef} position={[targetX, targetY, 0]}>
       {/* Signature Organic Deforming Sphere */}
       <mesh ref={meshRef} scale={scale}>
         <sphereGeometry args={[1, segs, segs]} />
