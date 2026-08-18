@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ReactPatch } from "@/components/providers/ReactPatch";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -74,7 +75,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#050505] text-white selection:bg-[#00F0FF]/30 selection:text-white relative min-h-screen overflow-x-hidden`}
       >
-        {children}
+        <ReactPatch>{children}</ReactPatch>
       </body>
     </html>
   );
