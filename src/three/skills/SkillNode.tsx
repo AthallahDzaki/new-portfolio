@@ -37,11 +37,11 @@ export function SkillNode({
   useFrame((state, delta) => {
     if (!meshRef.current) return;
 
-    // Very subtle floating motion (0.015 amplitude)
+    // Very subtle floating motion (0.012 amplitude)
     const t = state.clock.getElapsedTime();
     const offset = skill.name.length * 0.3;
     meshRef.current.position.y =
-      initialPos[1] + Math.sin(t * 1.2 + offset) * 0.015;
+      initialPos[1] + Math.sin(t * 1.2 + offset) * 0.012;
 
     // Rotation
     meshRef.current.rotation.x += delta * 0.2;
@@ -52,7 +52,7 @@ export function SkillNode({
     }
 
     // Scale lerp
-    const baseScale = isMainHub ? (isMobile ? 0.85 : 0.95) : (isMobile ? 0.65 : 0.72);
+    const baseScale = isMainHub ? (isMobile ? 0.75 : 0.95) : (isMobile ? 0.58 : 0.72);
     const targetScale = isSelected
       ? baseScale * 1.35
       : hovered
@@ -67,36 +67,42 @@ export function SkillNode({
 
   const active = isSelected || hovered || isCategoryHighlighted;
 
-  // Short clean names on mobile so tags NEVER collide
+  // Ultra-compact, clean micro tags on mobile to guarantee zero clipping & zero collisions
   const displayName = isMobile
-    ? skill.id === "gsap"
-      ? "GSAP"
-      : skill.id === "glsl"
-      ? "GLSL"
-      : skill.id === "r3f"
-      ? "R3F"
-      : skill.id === "typescript"
-      ? "TS"
-      : skill.id === "tailwind"
-      ? "TAILWIND"
+    ? skill.id === "threejs"
+      ? "THREE"
+      : skill.id === "react"
+      ? "REACT"
+      : skill.id === "nextjs"
+      ? "NEXT"
+      : skill.id === "nodejs"
+      ? "NODE"
       : skill.id === "postgresql"
-      ? "POSTGRES"
+      ? "SQL"
       : skill.id === "git"
       ? "GIT"
       : skill.id === "figma"
       ? "FIGMA"
-      : skill.id === "threejs"
-      ? "THREE.JS"
+      : skill.id === "tailwind"
+      ? "CSS"
+      : skill.id === "typescript"
+      ? "TS"
+      : skill.id === "glsl"
+      ? "GLSL"
+      : skill.id === "r3f"
+      ? "R3F"
+      : skill.id === "gsap"
+      ? "GSAP"
       : skill.name
     : skill.name;
 
   // Clean label offsets ensuring zero overlaps
   const labelOffset: [number, number, number] =
     skill.id === "threejs" || skill.id === "postgresql" || skill.id === "figma" || skill.id === "r3f" || skill.id === "glsl"
-      ? [0, isMobile ? 0.22 : 0.25, 0]
+      ? [0, isMobile ? 0.2 : 0.25, 0]
       : skill.id === "tailwind"
-      ? [0.12, isMobile ? -0.2 : -0.24, 0]
-      : [0, isMobile ? -0.2 : -0.24, 0];
+      ? [0.1, isMobile ? -0.18 : -0.24, 0]
+      : [0, isMobile ? -0.18 : -0.24, 0];
 
   return (
     <group position={[initialPos[0], initialPos[1], initialPos[2]]}>
@@ -117,7 +123,7 @@ export function SkillNode({
           document.body.style.cursor = "auto";
         }}
       >
-        <octahedronGeometry args={[isMainHub ? 0.2 : 0.14, 0]} />
+        <octahedronGeometry args={[isMainHub ? (isMobile ? 0.18 : 0.2) : (isMobile ? 0.13 : 0.14), 0]} />
         <meshStandardMaterial
           color={isSelected ? "#00F0FF" : hovered ? "#55f7ff" : isMainHub ? "#00F0FF" : "#ffffff"}
           emissive={active ? "#00F0FF" : "#1a1a24"}
@@ -131,7 +137,7 @@ export function SkillNode({
       {/* Orbiting Halo Ring for Main Hubs */}
       {isMainHub && (
         <mesh ref={ringRef} rotation={[Math.PI / 4, 0, 0]}>
-          <ringGeometry args={[0.26, 0.29, 32]} />
+          <ringGeometry args={[isMobile ? 0.22 : 0.26, isMobile ? 0.25 : 0.29, 32]} />
           <meshBasicMaterial
             color="#00F0FF"
             transparent
@@ -141,29 +147,29 @@ export function SkillNode({
         </mesh>
       )}
 
-      {/* Clean Compact HUD Tag */}
+      {/* Clean Compact HUD Micro Tag */}
       <Html
         position={labelOffset}
         center
-        distanceFactor={isMobile ? 9.5 : 7.5}
+        distanceFactor={isMobile ? 13.5 : 7.5}
         zIndexRange={[10, 0]}
         style={{ pointerEvents: "none" }}
       >
         <div
-          className={`font-mono font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-200 select-none ${
+          className={`font-mono font-bold uppercase whitespace-nowrap transition-all duration-200 select-none ${
             isMobile
-              ? "text-[8px] px-1.5 py-0.5"
+              ? "text-[6.5px] px-1 py-0.5 tracking-normal rounded-[2px]"
               : isMainHub
-              ? "text-[10px] px-2 py-0.5"
-              : "text-[8.5px] px-2 py-0.5"
+              ? "text-[10px] px-2 py-0.5 tracking-wider"
+              : "text-[8.5px] px-2 py-0.5 tracking-wider"
           } ${
             isSelected
-              ? "bg-[#00F0FF] text-black shadow-[0_0_15px_#00F0FF] scale-110"
+              ? "bg-[#00F0FF] text-black shadow-[0_0_15px_#00F0FF] scale-110 font-black"
               : hovered
               ? "bg-white/20 text-[#00F0FF] border border-[#00F0FF] backdrop-blur-md"
               : isCategoryHighlighted
-              ? "bg-black/85 text-white border border-[#00F0FF]/60 shadow-[0_0_8px_rgba(0,240,255,0.15)]"
-              : "bg-black/75 text-white/50 border border-white/10"
+              ? "bg-black/90 text-white border border-[#00F0FF]/60 shadow-[0_0_8px_rgba(0,240,255,0.15)]"
+              : "bg-black/80 text-white/60 border border-white/15"
           }`}
         >
           {displayName}
