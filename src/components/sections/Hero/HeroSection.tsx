@@ -46,45 +46,29 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-28 pb-12 safe-top safe-bottom select-none overflow-hidden"
+      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-32 sm:pt-36 md:pt-40 pb-12 safe-top safe-bottom select-none overflow-hidden"
     >
-      {/* Top Status HUD Badge */}
-      <motion.div
-        variants={itemVariants}
-        initial="hidden"
-        animate="visible"
-        className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 font-mono text-[11px] text-white/50 tracking-widest uppercase border-b border-white/10 pb-4"
-      >
-        <div className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block" />
-          <span className="text-white font-semibold tracking-wider">
-            ATHALLAH.DEV // CREATIVE WEBGL ENGINEER
-          </span>
-        </div>
-        <div className="flex items-center gap-4 text-white/40">
-          <span className="flex items-center gap-1.5">
-            <Cpu className="w-3.5 h-3.5 text-[#00F0FF]" />
-            GPU SHADERS ACTIVE
-          </span>
-          <span className="hidden sm:inline">•</span>
-          <span className="hidden sm:inline">JAKARTA, ID</span>
-        </div>
-      </motion.div>
-
       {/* Main Center Editorial Content */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-7xl mx-auto my-auto py-12 flex flex-col items-start justify-center"
+        className="w-full max-w-7xl mx-auto my-auto py-6 sm:py-10 flex flex-col items-start justify-center"
       >
-        {/* Kinetic Badge */}
+        {/* Status & Tech Pill */}
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider mb-6 shadow-[0_0_20px_rgba(0,240,255,0.15)]"
+          className="flex flex-wrap items-center gap-2.5 mb-6"
         >
-          <Sparkles className="w-3.5 h-3.5 text-[#00F0FF] animate-spin-slow" />
-          <span>Interactive 3D Digital Architecture</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.15)]">
+            <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block" />
+            <span>Creative WebGL & Three.js Engineer</span>
+          </div>
+
+          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.02] border border-white/10 text-white/50 font-mono text-xs uppercase tracking-wider">
+            <Cpu className="w-3.5 h-3.5 text-[#00F0FF]" />
+            <span>GPU Shaders Active</span>
+          </div>
         </motion.div>
 
         {/* Dynamic Massive Editorial Typography */}
