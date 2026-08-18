@@ -23,9 +23,14 @@ export function SkillsScene({
   const groupRef = useRef<THREE.Group>(null);
   const { viewport } = useThree();
 
-  // Responsive scale: on narrow mobile screens (viewport.width < 6.4), scale down proportionally
+  // Responsive scale: on narrow mobile screens (viewport.width < 5.8), scale proportionally
   // so the entire diamond width & height fits with generous margins on any smartphone!
-  const responsiveScale = viewport.width < 6.4 ? Math.min(viewport.width / 6.6, 0.9) : 1.0;
+  const responsiveScale =
+    viewport.width < 4.2
+      ? 0.72
+      : viewport.width < 5.8
+      ? 0.82
+      : 1.0;
 
   return (
     <group

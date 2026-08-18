@@ -130,7 +130,7 @@ export function SkillsSection({
           <div className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
             <Canvas
               key={resetKey}
-              camera={{ position: [0, 0, 5.5], fov: 36 }}
+              camera={{ position: [0, 0, 5.8], fov: 38 }}
               dpr={dpr}
               gl={{
                 antialias: quality !== "eco",
