@@ -88,7 +88,7 @@ export const projects: Project[] = [
       "Website resmi dan platform botanical e-commerce untuk koleksi bonsai premium, tools, dan aksesoris perawatan ('Bring Your Joi').",
     fullDescription:
       "Proyek magang (internship) di Artha Bonsai di mana saya merancang dan mengembangkan antarmuka website modern responsif untuk memamerkan koleksi pohon bonsai langka berkualitas tinggi, katalog perlengkapan perawatan (tools & accessories), serta sistem konsultasi perawatan botanical untuk komunitas pecinta bonsai.",
-    year: 2024,
+    year: 2025,
     role: "Frontend Developer Intern",
     technologies: [
       "React",

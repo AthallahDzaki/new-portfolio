@@ -4,7 +4,7 @@ export const experiences: ExperienceItem[] = [
   {
     id: "exp-01",
     year: "2025",
-    period: "2025 — PRESENT",
+    period: "JULI 2025 — PRESENT",
     role: "Frontend Web Developer",
     company: "SIDIGI.asia",
     location: "Malang, Indonesia",
@@ -18,10 +18,10 @@ export const experiences: ExperienceItem[] = [
   },
   {
     id: "exp-02",
-    year: "2024",
-    period: "2024 — PRESENT",
+    year: "2025",
+    period: "2025 — PRESENT",
     role: "Founder & Lead Fullstack Developer",
-    company: "SA-Chaos.id",
+    company: "SA-CHAOS.id",
     location: "Malang, Indonesia",
     description:
       "Merancang dan membangun platform mod interaktif GTA San Andreas untuk streamer TikTok (Classic Edition, Definitive Edition, & Find The Route) dengan integrasi 400+ efek chaos real-time.",
@@ -33,8 +33,8 @@ export const experiences: ExperienceItem[] = [
   },
   {
     id: "exp-03",
-    year: "2024",
-    period: "2024",
+    year: "2025",
+    period: "FEBRUARI — JUNI 2025",
     role: "Frontend Developer Intern",
     company: "Artha Bonsai (arthabonsai.com)",
     location: "Indonesia",
