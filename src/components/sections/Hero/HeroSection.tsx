@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { ArrowDownRight, Sparkles, Terminal } from "lucide-react";
+import { ArrowDownRight, Sparkles, Terminal, Activity, Cpu, Layers } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -19,18 +19,18 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
       opacity: 1,
       transition: {
         staggerChildren: prefersReducedMotion ? 0 : 0.12,
-        delayChildren: 0.2,
+        delayChildren: 0.15,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 25 },
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.7,
+        duration: 0.8,
         ease: "easeOut",
       },
     },
@@ -48,61 +48,84 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
       id="hero"
       className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-28 pb-12 safe-top safe-bottom select-none overflow-hidden"
     >
-      {/* Top Metadata Badge */}
+      {/* Top Status HUD Badge */}
       <motion.div
         variants={itemVariants}
         initial="hidden"
         animate="visible"
         className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 font-mono text-[11px] text-white/50 tracking-widest uppercase border-b border-white/10 pb-4"
       >
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF] animate-pulse inline-block" />
-          <span>CREATIVE DEVELOPER & WEBGL ENGINEER</span>
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block" />
+          <span className="text-white font-semibold tracking-wider">
+            ATHALLAH.DEV // CREATIVE WEBGL ENGINEER
+          </span>
         </div>
         <div className="flex items-center gap-4 text-white/40">
-          <span>JAKARTA, INDONESIA</span>
-          <span className="hidden sm:inline">/</span>
-          <span className="hidden sm:inline">2026 PORTFOLIO</span>
+          <span className="flex items-center gap-1.5">
+            <Cpu className="w-3.5 h-3.5 text-[#00F0FF]" />
+            GPU SHADERS ACTIVE
+          </span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">JAKARTA, ID</span>
         </div>
       </motion.div>
 
-      {/* Main Center Content */}
+      {/* Main Center Editorial Content */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         className="w-full max-w-7xl mx-auto my-auto py-12 flex flex-col items-start justify-center"
       >
-        {/* Subtitle tag */}
+        {/* Kinetic Badge */}
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-white/80 font-mono text-xs uppercase tracking-wider mb-6"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider mb-6 shadow-[0_0_20px_rgba(0,240,255,0.15)]"
         >
-          <Sparkles className="w-3.5 h-3.5 text-[#00F0FF]" />
-          <span>Crafting Digital Realities</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#00F0FF] animate-spin-slow" />
+          <span>Interactive 3D Digital Architecture</span>
         </motion.div>
 
-        {/* Main Name Heading */}
+        {/* Dynamic Massive Editorial Typography */}
         <motion.h1
           variants={itemVariants}
           className="text-hero-title tracking-tight text-white uppercase max-w-5xl"
         >
           ATHALLAH DZAKI
-          <span className="block text-white/40 font-medium tracking-tight mt-1 text-[0.8em]">
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/30 font-medium tracking-tight mt-1 text-[0.8em]">
             ANGGORO SEPUTRO
           </span>
         </motion.h1>
 
-        {/* Core Description Statement */}
+        {/* Core Statement */}
         <motion.p
           variants={itemVariants}
           className="text-subtitle text-white/70 max-w-2xl mt-6 md:mt-8 font-light leading-relaxed"
         >
-          Specialized in bridging creative design and technical engineering through{" "}
-          <span className="text-white font-medium">Three.js</span>,{" "}
-          <span className="text-[#00F0FF] font-medium">custom GLSL shaders</span>, and{" "}
-          <span className="text-white font-medium">modern Next.js</span> architectures.
+          Engineering the next generation of web applications through{" "}
+          <span className="text-[#00F0FF] font-semibold underline decoration-[#00F0FF]/40 underline-offset-4">
+            Three.js
+          </span>
+          , procedural{" "}
+          <span className="text-white font-semibold">GLSL shaders</span>, and{" "}
+          <span className="text-white font-semibold">Next.js fullstack systems</span>.
         </motion.p>
+
+        {/* Live Metrics Strip */}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-wrap items-center gap-3 sm:gap-6 mt-6 pt-6 border-t border-white/10 font-mono text-[11px] text-white/60"
+        >
+          <div className="flex items-center gap-2">
+            <Activity className="w-3.5 h-3.5 text-emerald-400" />
+            <span>60 FPS IMMERSIVE CANVAS</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Layers className="w-3.5 h-3.5 text-[#00F0FF]" />
+            <span>DIAMOND CONSTELLATION GRAPH</span>
+          </div>
+        </motion.div>
 
         {/* Action Buttons */}
         <motion.div
@@ -113,10 +136,10 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
             variant="primary"
             size="lg"
             onClick={() => scrollToSection("work")}
-            className="w-full sm:w-auto group"
+            className="w-full sm:w-auto group shadow-[0_0_25px_rgba(0,240,255,0.3)] hover:shadow-[0_0_35px_rgba(0,240,255,0.6)]"
           >
             <span>Explore Selected Work</span>
-            <ArrowDownRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+            <ArrowDownRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
           </Button>
 
           <Button
@@ -125,7 +148,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
             onClick={() => scrollToSection("skills")}
             className="w-full sm:w-auto"
           >
-            <span>Inspect 3D Skills</span>
+            <span>Inspect 3D Diamond Graph</span>
           </Button>
         </motion.div>
       </motion.div>
@@ -138,7 +161,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-6 border-t border-white/10 font-mono text-xs text-white/50"
       >
         <div className="flex items-center gap-3">
-          <span className="text-[#00F0FF]">{"// SCROLL TO EXPLORE"}</span>
+          <span className="text-[#00F0FF]">{"// SCROLL TO EXPLORE EXPERIENCE"}</span>
           <span className="w-8 h-px bg-white/20 inline-block" />
         </div>
         <div className="flex items-center gap-6">
@@ -147,7 +170,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
             className="hover:text-[#00F0FF] transition-colors flex items-center gap-2 min-h-[44px] min-w-[44px]"
           >
             <Terminal className="w-3.5 h-3.5" />
-            <span>OPEN PLAYGROUND</span>
+            <span>OPEN 3D SHADER LAB</span>
           </button>
         </div>
       </motion.div>
