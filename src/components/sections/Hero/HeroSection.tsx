@@ -46,9 +46,9 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-8 safe-top safe-bottom select-none overflow-hidden"
+      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-32 sm:pt-28 pb-8 safe-top safe-bottom select-none overflow-hidden"
     >
-      {/* Main Editorial Content - Positioned naturally in the upper-middle area */}
+      {/* Main Editorial Content - Positioned naturally with clean mobile clearance */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -60,12 +60,12 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
           variants={itemVariants}
           className="flex flex-wrap items-center gap-2.5 mb-5"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.15)]">
-            <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block" />
-            <span>Creative Fullstack & Three.js Engineer</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-[10px] sm:text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.15)] max-w-full">
+            <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block shrink-0" />
+            <span className="truncate">Creative Fullstack & Three.js Engineer</span>
           </div>
 
-          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/10 text-white/50 font-mono text-xs uppercase tracking-wider">
+          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.02] border border-white/10 text-white/50 font-mono text-xs uppercase tracking-wider">
             <Cpu className="w-3.5 h-3.5 text-[#00F0FF]" />
             <span>GPU Shaders Active</span>
           </div>
