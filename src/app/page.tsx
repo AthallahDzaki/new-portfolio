@@ -15,9 +15,8 @@ import { PlaygroundSection } from "@/components/sections/Playground/PlaygroundSe
 import { TerminalSection } from "@/components/sections/Terminal/TerminalSection";
 import { ContactSection } from "@/components/sections/Contact/ContactSection";
 import { Skill } from "@/types";
-import { skills as allSkills } from "@/data/skills";
 
-// Dynamic import of Three.js canvas to guarantee client-side only execution and WebGL safety
+// Dynamic import of Three.js background canvas to guarantee client-side only execution and WebGL safety
 const ThreeCanvas = dynamic(
   () => import("@/three/ThreeCanvas").then((mod) => mod.ThreeCanvas),
   { ssr: false }
@@ -28,15 +27,9 @@ const HeroObject = dynamic(
   { ssr: false }
 );
 
-const SkillsScene = dynamic(
-  () => import("@/three/skills/SkillsScene").then((mod) => mod.SkillsScene),
-  { ssr: false }
-);
-
 export default function Home() {
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState("hero");
 
   const [playgroundControls, setPlaygroundControls] = useState({
     distortion: 1.0,
@@ -52,13 +45,6 @@ export default function Home() {
       if (totalScroll > 0) {
         const progress = Math.min(Math.max(window.scrollY / totalScroll, 0), 1);
         setScrollProgress(progress);
-
-        // Section tracker
-        if (progress < 0.15) setActiveSection("hero");
-        else if (progress < 0.35) setActiveSection("about");
-        else if (progress < 0.55) setActiveSection("skills");
-        else if (progress < 0.75) setActiveSection("work");
-        else setActiveSection("contact");
       }
     };
 
@@ -77,17 +63,9 @@ export default function Home() {
       {/* Mobile-first Navigation */}
       <Navigation />
 
-      {/* Global Three.js 3D Canvas */}
+      {/* Global Background Three.js 3D Canvas */}
       <ThreeCanvas scrollProgress={scrollProgress}>
-        {activeSection === "skills" ? (
-          <SkillsScene
-            skills={allSkills}
-            selectedSkill={selectedSkill}
-            onSelectSkill={setSelectedSkill}
-          />
-        ) : (
-          <HeroObject distortion={playgroundControls.distortion} />
-        )}
+        <HeroObject distortion={playgroundControls.distortion} />
       </ThreeCanvas>
 
       {/* HTML Content Flow */}

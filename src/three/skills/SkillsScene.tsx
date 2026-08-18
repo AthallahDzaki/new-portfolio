@@ -3,40 +3,47 @@
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Skill } from "@/types";
+import { Skill, SkillCategory } from "@/types";
 import { SkillNode } from "./SkillNode";
 import { SkillConnections } from "./SkillConnections";
 
 interface SkillsSceneProps {
   skills: Skill[];
   selectedSkill: Skill | null;
+  selectedCategory?: SkillCategory | "all";
   onSelectSkill: (skill: Skill) => void;
 }
 
 export function SkillsScene({
   skills,
   selectedSkill,
+  selectedCategory = "all",
   onSelectSkill,
 }: SkillsSceneProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
     if (!groupRef.current) return;
-    // Slow overall rotation for organic constellation feel
-    groupRef.current.rotation.y += delta * 0.04;
+    // Gentle hovering rotation
+    groupRef.current.rotation.y += delta * 0.05;
   });
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       <SkillConnections skills={skills} selectedSkill={selectedSkill} />
-      {skills.map((skill) => (
-        <SkillNode
-          key={skill.id}
-          skill={skill}
-          isSelected={selectedSkill?.id === skill.id}
-          onSelect={onSelectSkill}
-        />
-      ))}
+      {skills.map((skill) => {
+        const isCat =
+          selectedCategory === "all" || skill.category === selectedCategory;
+        return (
+          <SkillNode
+            key={skill.id}
+            skill={skill}
+            isSelected={selectedSkill?.id === skill.id}
+            isCategoryHighlighted={isCat}
+            onSelect={onSelectSkill}
+          />
+        );
+      })}
     </group>
   );
 }

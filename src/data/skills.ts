@@ -1,6 +1,17 @@
 import { Skill } from "@/types";
 
+/**
+ * Diamond Constellation Graph Topology (Based on user diagram):
+ *          [Top: Three.js / GLSL]
+ *                 /     \
+ *                /       \
+ * [E: Backend] - [A: React]    [B: Next.js] - [D: Tools/Git]
+ *                \       /
+ *                 \     /
+ *          [Bottom: GSAP / Motion]
+ */
 export const skills: Skill[] = [
+  // TOP CLUSTER (*) — Creative 3D & Shaders
   {
     id: "threejs",
     name: "Three.js",
@@ -16,8 +27,8 @@ export const skills: Skill[] = [
       "Custom shaders & material effects",
       "Creative coding experiments",
     ],
-    relatedSkills: ["React Three Fiber", "WebGL", "GLSL", "GSAP"],
-    position: [0, 1.2, 0],
+    relatedSkills: ["React Three Fiber", "GLSL & Shaders", "React"],
+    position: [0, 1.8, 0],
   },
   {
     id: "r3f",
@@ -33,59 +44,8 @@ export const skills: Skill[] = [
       "State-synchronized 3D UI components",
       "Performance-optimized render loops",
     ],
-    relatedSkills: ["Three.js", "React", "Next.js", "GLSL"],
-    position: [-1.8, 0.6, 0.4],
-  },
-  {
-    id: "react",
-    name: "React",
-    category: "frontend",
-    shortDescription: "Core JavaScript library for building component-driven modern user interfaces.",
-    description:
-      "Specialized in modern React architectures, concurrent rendering, custom hooks, memoization, and responsive component design.",
-    experience: "4+ years",
-    useCases: [
-      "Dynamic interactive single page applications",
-      "Complex state management and custom hooks",
-      "Modular design system architectures",
-      "Performance tuning and re-render elimination",
-    ],
-    relatedSkills: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    position: [-1.2, -0.8, -0.2],
-  },
-  {
-    id: "nextjs",
-    name: "Next.js",
-    category: "frontend",
-    shortDescription: "Full-stack React framework for high performance web applications.",
-    description:
-      "Utilizing Next.js App Router, Server Components, dynamic routing, metadata API, SEO optimization, and edge deployment.",
-    experience: "3+ years",
-    useCases: [
-      "Server-side rendered & static modern websites",
-      "Optimized asset and font delivery",
-      "SEO-first content architecture",
-      "API endpoints and edge serverless routes",
-    ],
-    relatedSkills: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
-    position: [1.6, 0.7, 0.3],
-  },
-  {
-    id: "typescript",
-    name: "TypeScript",
-    category: "frontend",
-    shortDescription: "Statically typed superset of JavaScript for scalable software development.",
-    description:
-      "Writing strictly typed React components, Three.js objects, custom hooks, data models, and eliminating runtime bugs with comprehensive type safety.",
-    experience: "3+ years",
-    useCases: [
-      "Strict type systems for robust architectures",
-      "Generics and discriminated union types",
-      "Complex 3D math & vector typing",
-      "Zero-overhead maintainable codebases",
-    ],
-    relatedSkills: ["React", "Next.js", "JavaScript", "Node.js"],
-    position: [1.4, -0.7, -0.3],
+    relatedSkills: ["Three.js", "React", "Next.js"],
+    position: [-0.85, 1.15, 0.2],
   },
   {
     id: "glsl",
@@ -101,9 +61,66 @@ export const skills: Skill[] = [
       "Holographic & chromatic aberration materials",
       "Real-time reactive GPU visual effects",
     ],
-    relatedSkills: ["Three.js", "WebGL", "React Three Fiber"],
-    position: [0, -1.3, 0.5],
+    relatedSkills: ["Three.js", "Next.js"],
+    position: [0.85, 1.15, 0.2],
   },
+
+  // CENTER-LEFT CLUSTER (A) — Frontend Core
+  {
+    id: "react",
+    name: "React",
+    category: "frontend",
+    shortDescription: "Core JavaScript library for building component-driven modern user interfaces.",
+    description:
+      "Specialized in modern React architectures, concurrent rendering, custom hooks, memoization, and responsive component design.",
+    experience: "4+ years",
+    useCases: [
+      "Dynamic interactive single page applications",
+      "Complex state management and custom hooks",
+      "Modular design system architectures",
+      "Performance tuning and re-render elimination",
+    ],
+    relatedSkills: ["Three.js", "Node.js", "GSAP & ScrollTrigger", "TypeScript"],
+    position: [-1.4, 0, 0],
+  },
+  {
+    id: "typescript",
+    name: "TypeScript",
+    category: "frontend",
+    shortDescription: "Statically typed superset of JavaScript for scalable software development.",
+    description:
+      "Writing strictly typed React components, Three.js objects, custom hooks, data models, and eliminating runtime bugs with comprehensive type safety.",
+    experience: "3+ years",
+    useCases: [
+      "Strict type systems for robust architectures",
+      "Generics and discriminated union types",
+      "Complex 3D math & vector typing",
+      "Zero-overhead maintainable codebases",
+    ],
+    relatedSkills: ["React", "Next.js"],
+    position: [-1.4, -0.95, 0.3],
+  },
+
+  // CENTER-RIGHT CLUSTER (B) — Fullstack & Next.js Architecture
+  {
+    id: "nextjs",
+    name: "Next.js",
+    category: "frontend",
+    shortDescription: "Full-stack React framework for high performance web applications.",
+    description:
+      "Utilizing Next.js App Router, Server Components, dynamic routing, metadata API, SEO optimization, and edge deployment.",
+    experience: "3+ years",
+    useCases: [
+      "Server-side rendered & static modern websites",
+      "Optimized asset and font delivery",
+      "SEO-first content architecture",
+      "API endpoints and edge serverless routes",
+    ],
+    relatedSkills: ["Three.js", "GSAP & ScrollTrigger", "Git & GitHub"],
+    position: [1.4, 0, 0],
+  },
+
+  // BOTTOM CLUSTER (C) — Motion & Styling
   {
     id: "gsap",
     name: "GSAP & ScrollTrigger",
@@ -118,8 +135,8 @@ export const skills: Skill[] = [
       "SVG morphing and sequenced timelines",
       "Smooth kinetic interface transitions",
     ],
-    relatedSkills: ["Three.js", "Framer Motion", "JavaScript"],
-    position: [-0.6, 0.1, -0.6],
+    relatedSkills: ["React", "Next.js", "Tailwind CSS"],
+    position: [0, -1.8, 0],
   },
   {
     id: "tailwind",
@@ -135,9 +152,11 @@ export const skills: Skill[] = [
       "Glassmorphism & futuristic dark themes",
       "Zero-runtime optimized CSS payloads",
     ],
-    relatedSkills: ["React", "Next.js", "CSS3"],
-    position: [0.7, 0.1, 0.6],
+    relatedSkills: ["GSAP & ScrollTrigger", "Next.js"],
+    position: [0, -2.45, -0.2],
   },
+
+  // FAR-LEFT CLUSTER (E) — Backend & Database
   {
     id: "nodejs",
     name: "Node.js",
@@ -151,8 +170,8 @@ export const skills: Skill[] = [
       "Third-party API and database integrations",
       "Authentication and security middleware",
     ],
-    relatedSkills: ["TypeScript", "PostgreSQL", "Next.js"],
-    position: [-2.2, -1.2, 0.1],
+    relatedSkills: ["React", "PostgreSQL"],
+    position: [-3.2, 0, 0],
   },
   {
     id: "postgresql",
@@ -167,9 +186,11 @@ export const skills: Skill[] = [
       "Relational models and ACID transactions",
       "Performance query optimization",
     ],
-    relatedSkills: ["Node.js", "Prisma", "TypeScript"],
-    position: [-1.8, 1.4, -0.4],
+    relatedSkills: ["Node.js"],
+    position: [-3.7, 0.85, -0.2],
   },
+
+  // FAR-RIGHT CLUSTER (D) — Tools & Design
   {
     id: "git",
     name: "Git & GitHub",
@@ -183,8 +204,8 @@ export const skills: Skill[] = [
       "CI/CD workflows and automated builds",
       "Team code reviews and PR management",
     ],
-    relatedSkills: ["GitHub Actions", "Docker", "VS Code"],
-    position: [2.2, -1.1, 0.2],
+    relatedSkills: ["Next.js", "Figma & UI/UX"],
+    position: [3.2, 0, 0],
   },
   {
     id: "figma",
@@ -199,7 +220,7 @@ export const skills: Skill[] = [
       "Interactive prototyping & design tokens",
       "Mobile-first interface specifications",
     ],
-    relatedSkills: ["Tailwind CSS", "CSS3", "Design Systems"],
-    position: [2.0, 1.3, -0.3],
+    relatedSkills: ["Git & GitHub"],
+    position: [3.7, 0.85, -0.2],
   },
 ];

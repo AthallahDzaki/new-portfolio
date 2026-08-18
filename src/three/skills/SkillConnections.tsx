@@ -10,49 +10,88 @@ interface SkillConnectionsProps {
 }
 
 export function SkillConnections({ skills, selectedSkill }: SkillConnectionsProps) {
-  const lineSegments = useMemo(() => {
-    const points: number[] = [];
+  // Primary diamond connections and satellite lines
+  const { primaryGeometry, secondaryGeometry } = useMemo(() => {
+    const primaryPoints: number[] = [];
+    const secondaryPoints: number[] = [];
 
-    // Connect skills that are related
-    skills.forEach((skill) => {
-      const skillPos = skill.position;
-      if (!skillPos) return;
-      const related = skill.relatedSkills || [];
+    const getPos = (id: string): [number, number, number] | null => {
+      const s = skills.find((item) => item.id === id);
+      return s?.position ? s.position : null;
+    };
 
-      related.forEach((relName) => {
-        const target = skills.find(
-          (s) => s.name.toLowerCase() === relName.toLowerCase()
-        );
-        if (target && target.position) {
-          const targetPos = target.position;
-          points.push(
-            skillPos[0],
-            skillPos[1],
-            skillPos[2],
-            targetPos[0],
-            targetPos[1],
-            targetPos[2]
-          );
-        }
-      });
+    // 1. Primary Diamond Topology: (E - A - Top - B - D) & (A - Bottom - B)
+    const primaryEdges = [
+      ["nodejs", "react"],      // E - A
+      ["react", "threejs"],     // A - Top
+      ["react", "gsap"],        // A - Bottom
+      ["nextjs", "threejs"],    // B - Top
+      ["nextjs", "gsap"],       // B - Bottom
+      ["nextjs", "git"],        // B - D
+    ];
+
+    primaryEdges.forEach(([srcId, tgtId]) => {
+      const p1 = getPos(srcId);
+      const p2 = getPos(tgtId);
+      if (p1 && p2) {
+        primaryPoints.push(...p1, ...p2);
+      }
     });
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
+    // 2. Secondary Satellite Connections
+    const secondaryEdges = [
+      ["nodejs", "postgresql"],
+      ["react", "typescript"],
+      ["threejs", "r3f"],
+      ["threejs", "glsl"],
+      ["gsap", "tailwind"],
+      ["git", "figma"],
+    ];
+
+    secondaryEdges.forEach(([srcId, tgtId]) => {
+      const p1 = getPos(srcId);
+      const p2 = getPos(tgtId);
+      if (p1 && p2) {
+        secondaryPoints.push(...p1, ...p2);
+      }
+    });
+
+    const primGeo = new THREE.BufferGeometry();
+    primGeo.setAttribute(
       "position",
-      new THREE.Float32BufferAttribute(points, 3)
+      new THREE.Float32BufferAttribute(primaryPoints, 3)
     );
-    return geometry;
+
+    const secGeo = new THREE.BufferGeometry();
+    secGeo.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(secondaryPoints, 3)
+    );
+
+    return { primaryGeometry: primGeo, secondaryGeometry: secGeo };
   }, [skills]);
 
   return (
-    <lineSegments geometry={lineSegments}>
-      <lineBasicMaterial
-        color="#00F0FF"
-        transparent={true}
-        opacity={selectedSkill ? 0.4 : 0.15}
-        linewidth={1}
-      />
-    </lineSegments>
+    <group>
+      {/* Primary Diamond Constellation Lines */}
+      <lineSegments geometry={primaryGeometry}>
+        <lineBasicMaterial
+          color="#00F0FF"
+          transparent={true}
+          opacity={selectedSkill ? 0.6 : 0.45}
+          linewidth={2}
+        />
+      </lineSegments>
+
+      {/* Secondary Sub-Node Lines */}
+      <lineSegments geometry={secondaryGeometry}>
+        <lineBasicMaterial
+          color="#00F0FF"
+          transparent={true}
+          opacity={selectedSkill ? 0.35 : 0.2}
+          linewidth={1}
+        />
+      </lineSegments>
+    </group>
   );
 }
