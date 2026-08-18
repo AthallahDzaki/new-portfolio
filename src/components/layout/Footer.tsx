@@ -36,7 +36,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-12 border-b border-white/10">
           <div>
             <div className="font-mono text-xs text-[#00F0FF] uppercase tracking-[0.25em] mb-2">
-              // ATHALLAH DZAKI
+              {"// ATHALLAH DZAKI"}
             </div>
             <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight">
               ATHALLAH DZAKI <br />

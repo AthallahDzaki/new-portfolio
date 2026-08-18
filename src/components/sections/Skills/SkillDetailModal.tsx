@@ -85,7 +85,7 @@ export function SkillDetailModal({
           <div className="p-6 pb-4 border-b border-white/10 flex items-start justify-between">
             <div>
               <div className="font-mono text-xs text-[#00F0FF] uppercase tracking-[0.25em] mb-1">
-                // {skill.category}
+                {"//"} {skill.category}
               </div>
               <h3
                 id="skill-modal-title"

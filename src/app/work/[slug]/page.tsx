@@ -74,7 +74,7 @@ export default async function ProjectPage({ params }: PageProps) {
         {/* Project Header */}
         <div>
           <div className="font-mono text-xs text-[#00F0FF] uppercase tracking-[0.25em] mb-3">
-            // CASE STUDY
+            {"// CASE STUDY"}
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight uppercase text-white mb-4">
             {project.title}
@@ -149,7 +149,7 @@ export default async function ProjectPage({ params }: PageProps) {
         {/* Content Section: Overview */}
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-white/10">
           <div className="md:col-span-4 font-mono text-xs uppercase tracking-widest text-[#00F0FF]">
-            01 // OVERVIEW & PURPOSE
+            {"01 // OVERVIEW & PURPOSE"}
           </div>
           <div className="md:col-span-8 space-y-4 text-white/80 font-light text-base sm:text-lg leading-relaxed">
             <p>{project.fullDescription || project.description}</p>
@@ -159,7 +159,7 @@ export default async function ProjectPage({ params }: PageProps) {
         {/* Content Section: Tech Stack */}
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-white/10">
           <div className="md:col-span-4 font-mono text-xs uppercase tracking-widest text-[#00F0FF]">
-            02 // TECHNOLOGY STACK
+            {"02 // TECHNOLOGY STACK"}
           </div>
           <div className="md:col-span-8 flex flex-wrap gap-2">
             {project.technologies.map((tech) => (
@@ -177,7 +177,7 @@ export default async function ProjectPage({ params }: PageProps) {
         {project.challenges && project.challenges.length > 0 && (
           <section className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-white/10">
             <div className="md:col-span-4 font-mono text-xs uppercase tracking-widest text-[#00F0FF]">
-              03 // TECHNICAL CHALLENGES
+              {"03 // TECHNICAL CHALLENGES"}
             </div>
             <div className="md:col-span-8 space-y-4">
               <ul className="space-y-3">
@@ -201,7 +201,7 @@ export default async function ProjectPage({ params }: PageProps) {
         {project.outcomes && project.outcomes.length > 0 && (
           <section className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-white/10">
             <div className="md:col-span-4 font-mono text-xs uppercase tracking-widest text-[#00F0FF]">
-              04 // IMPACT & RESULTS
+              {"04 // IMPACT & RESULTS"}
             </div>
             <div className="md:col-span-8 space-y-3">
               {project.outcomes.map((outcome, i) => (

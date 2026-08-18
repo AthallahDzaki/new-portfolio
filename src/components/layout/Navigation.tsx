@@ -162,7 +162,7 @@ export function Navigation() {
           >
             <div className="flex flex-col gap-6 my-auto">
               <span className="font-mono text-xs text-[#00F0FF] uppercase tracking-[0.3em]">
-                // NAVIGATION
+                {"// NAVIGATION"}
               </span>
               <nav className="flex flex-col gap-4">
                 {NAV_LINKS.map((link, idx) => (

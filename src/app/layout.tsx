@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://athallahdzaki.dev"),
   title: "Athallah Dzaki Anggoro Seputro — Creative Developer",
   description:
     "Portfolio of Athallah Dzaki Anggoro Seputro, a creative developer building modern, interactive and immersive web experiences.",

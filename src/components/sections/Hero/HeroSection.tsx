@@ -138,7 +138,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-6 border-t border-white/10 font-mono text-xs text-white/50"
       >
         <div className="flex items-center gap-3">
-          <span className="text-[#00F0FF]">// SCROLL TO EXPLORE</span>
+          <span className="text-[#00F0FF]">{"// SCROLL TO EXPLORE"}</span>
           <span className="w-8 h-px bg-white/20 inline-block" />
         </div>
         <div className="flex items-center gap-6">
