@@ -24,24 +24,38 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 40);
 
-      // Detect active section
+      // If at the very top of the page (Hero / Top), default to "about"
+      if (scrollY < 250) {
+        setActiveSection("about");
+        return;
+      }
+
+      // Detect active section using getBoundingClientRect for absolute viewport accuracy
       const sections = NAV_LINKS.map((link) => link.href.substring(1));
-      const scrollPos = window.scrollY + 200;
+      const viewportCenter = window.innerHeight * 0.45;
+      let currentSection = "";
 
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(sectionId);
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= viewportCenter && rect.bottom > viewportCenter) {
+            currentSection = sectionId;
             break;
           }
         }
       }
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
     };
+
+    // Run once on mount to establish active section
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
