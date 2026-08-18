@@ -151,17 +151,17 @@ export function SkillNode({
       <Html
         position={labelOffset}
         center
-        distanceFactor={isMobile ? 13.5 : 7.5}
+        distanceFactor={isMobile ? 3.0 : 4.8}
         zIndexRange={[10, 0]}
         style={{ pointerEvents: "none" }}
       >
         <div
           className={`font-mono font-bold uppercase whitespace-nowrap transition-all duration-200 select-none ${
             isMobile
-              ? "text-[6.5px] px-1 py-0.5 tracking-normal rounded-[2px]"
+              ? "text-[8px] px-1 py-0.5 tracking-normal rounded-[2px]"
               : isMainHub
               ? "text-[10px] px-2 py-0.5 tracking-wider"
-              : "text-[8.5px] px-2 py-0.5 tracking-wider"
+              : "text-[8.5px] px-1.5 py-0.5 tracking-wider"
           } ${
             isSelected
               ? "bg-[#00F0FF] text-black shadow-[0_0_15px_#00F0FF] scale-110 font-black"
