@@ -215,7 +215,7 @@ export function PlaygroundSection({
           {/* 3D Canvas Box */}
           <div className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
             <Canvas
-              key={resetKey}
+              key={`${resetKey}-${geometryType}-${shaderMode}`}
               camera={{ position: [0, 0, 5.2], fov: 45 }}
               dpr={dpr}
               gl={{
@@ -224,14 +224,14 @@ export function PlaygroundSection({
                 powerPreference: quality === "eco" ? "low-power" : "high-performance",
               }}
             >
-              <ambientLight intensity={0.7} />
+              <ambientLight intensity={0.8} />
               <pointLight
                 position={[4, 4, 4]}
-                intensity={2.8}
+                intensity={3.0}
                 color={controls.colorTheme}
               />
-              <pointLight position={[-4, -4, -4]} intensity={1.5} color="#ffffff" />
-              <directionalLight position={[0, 6, 2]} intensity={1.2} />
+              <pointLight position={[-4, -4, -4]} intensity={2.0} color="#ffffff" />
+              <directionalLight position={[0, 6, 2]} intensity={1.5} />
 
               <OrbitControls
                 enableZoom={false}

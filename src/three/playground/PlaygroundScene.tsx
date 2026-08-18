@@ -1,12 +1,8 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import {
-  playgroundVertexShader,
-  playgroundFragmentShader,
-} from "../shaders/playgroundShaders";
 import { usePerformance } from "@/context/PerformanceContext";
 
 export type GeometryType = "torus" | "icosahedron" | "sphere" | "vortex" | "saturn";
@@ -35,30 +31,39 @@ export function PlaygroundScene({
   pulseActive,
   explodeAmount,
 }: PlaygroundSceneProps) {
-  const { segments, quality } = usePerformance();
+  const { quality } = usePerformance();
   const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
-  const particlesRef = useRef<THREE.Points>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
   const ring2Ref = useRef<THREE.Mesh>(null);
-  const innerCoreRef = useRef<THREE.Mesh>(null);
+  const saturnDiskRef = useRef<THREE.Mesh>(null);
+  const particlesRef = useRef<THREE.Points>(null);
 
-  const shaderModeIndex = useMemo(() => {
-    switch (shaderMode) {
-      case "holographic":
-        return 0;
-      case "normals":
-        return 1;
-      case "cyber":
-        return 2;
-      case "chrome":
-        return 3;
-      default:
-        return 0;
+  // Store original geometry vertex positions for real-time deformation
+  const originalPositions = useRef<Float32Array | null>(null);
+
+  // Create base geometry based on geometryType
+  const baseGeometry = useMemo(() => {
+    let geom: THREE.BufferGeometry;
+    if (geometryType === "torus") {
+      geom = new THREE.TorusKnotGeometry(0.85, 0.28, 128, 32, 2, 3);
+    } else if (geometryType === "icosahedron") {
+      geom = new THREE.IcosahedronGeometry(1.25, 1);
+    } else if (geometryType === "sphere") {
+      geom = new THREE.SphereGeometry(1.15, 48, 48);
+    } else if (geometryType === "vortex") {
+      geom = new THREE.TorusGeometry(1.05, 0.38, 32, 64);
+    } else {
+      // saturn
+      geom = new THREE.SphereGeometry(0.9, 40, 40);
     }
-  }, [shaderMode]);
 
-  // Secondary complementary color based on theme
+    // Save copy of pristine vertex positions
+    const pos = geom.attributes.position.array;
+    originalPositions.current = new Float32Array(pos);
+    return geom;
+  }, [geometryType]);
+
+  // Secondary complementary color
   const secondaryColor = useMemo(() => {
     const c = new THREE.Color(colorTheme);
     const hsl = { h: 0, s: 0, l: 0 };
@@ -66,23 +71,7 @@ export function PlaygroundScene({
     return new THREE.Color().setHSL((hsl.h + 0.5) % 1.0, 0.9, 0.6);
   }, [colorTheme]);
 
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uDistortion: { value: distortion },
-      uSpeed: { value: speed },
-      uPulse: { value: pulseActive ? 1.0 : 0.0 },
-      uExplode: { value: explodeAmount },
-      uPointer: { value: new THREE.Vector2(0, 0) },
-      uAccentColor: { value: new THREE.Color(colorTheme) },
-      uSecondaryColor: { value: secondaryColor },
-      uShaderMode: { value: shaderModeIndex },
-      uWireframeGlow: { value: wireframe ? 1.0 : 0.0 },
-    }),
-    [distortion, speed, pulseActive, explodeAmount, colorTheme, secondaryColor, shaderModeIndex, wireframe]
-  );
-
-  // Particles Cloud
+  // Galaxy Particle Cloud
   const { particlePositions, particleColors } = useMemo(() => {
     const count = particlesCount;
     const positions = new Float32Array(count * 3);
@@ -90,7 +79,7 @@ export function PlaygroundScene({
     const baseColor = new THREE.Color(colorTheme);
 
     for (let i = 0; i < count; i++) {
-      const radius = 2.0 + Math.random() * 2.5;
+      const radius = 2.0 + Math.random() * 2.6;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
 
@@ -106,41 +95,49 @@ export function PlaygroundScene({
     return { particlePositions: positions, particleColors: colors };
   }, [particlesCount, colorTheme]);
 
+  // Real-time Vertex Noise Deformation, Pulse & Dispersal Loop
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime() * speed;
 
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = t;
-      materialRef.current.uniforms.uDistortion.value = THREE.MathUtils.lerp(
-        materialRef.current.uniforms.uDistortion.value,
-        distortion,
-        0.15
-      );
-      materialRef.current.uniforms.uExplode.value = THREE.MathUtils.lerp(
-        materialRef.current.uniforms.uExplode.value,
-        explodeAmount,
-        0.15
-      );
-      materialRef.current.uniforms.uPulse.value = pulseActive ? 1.0 : 0.0;
-      materialRef.current.uniforms.uShaderMode.value = shaderModeIndex;
-      materialRef.current.uniforms.uAccentColor.value.lerp(
-        new THREE.Color(colorTheme),
-        0.1
-      );
-      materialRef.current.uniforms.uSecondaryColor.value.lerp(
-        secondaryColor,
-        0.1
-      );
-    }
-
+    // Animate mesh rotation
     if (meshRef.current) {
       meshRef.current.rotation.x += delta * 0.35 * speed;
       meshRef.current.rotation.y += delta * 0.5 * speed;
-    }
 
-    if (innerCoreRef.current) {
-      innerCoreRef.current.rotation.x -= delta * 0.4 * speed;
-      innerCoreRef.current.rotation.z += delta * 0.3 * speed;
+      // Real-time procedural vertex distortion on the active geometry
+      const geom = meshRef.current.geometry;
+      if (geom && originalPositions.current) {
+        const posAttr = geom.attributes.position;
+        const count = posAttr.count;
+        const orig = originalPositions.current;
+
+        for (let i = 0; i < count; i++) {
+          const ox = orig[i * 3 + 0];
+          const oy = orig[i * 3 + 1];
+          const oz = orig[i * 3 + 2];
+
+          const len = Math.sqrt(ox * ox + oy * oy + oz * oz) || 1;
+          const nx = ox / len;
+          const ny = oy / len;
+          const nz = oz / len;
+
+          // Multi-frequency wave noise
+          const wave =
+            Math.sin(ox * 3.0 + t * 2.2) *
+            Math.cos(oy * 3.0 + t * 1.8) *
+            Math.sin(oz * 3.0 + t * 2.0);
+
+          // Pulse heartbeat
+          const pulse = pulseActive ? Math.sin(t * 4.5) * 0.12 : 0.0;
+
+          // Total normal displacement (distortion + pulse + explode)
+          const disp = wave * distortion * 0.3 + pulse + explodeAmount * 0.75;
+
+          posAttr.setXYZ(i, ox + nx * disp, oy + ny * disp, oz + nz * disp);
+        }
+        posAttr.needsUpdate = true;
+        geom.computeVertexNormals();
+      }
     }
 
     if (ring1Ref.current) {
@@ -153,6 +150,10 @@ export function PlaygroundScene({
       ring2Ref.current.rotation.z = Math.cos(t * 0.6) * 0.4;
     }
 
+    if (saturnDiskRef.current) {
+      saturnDiskRef.current.rotation.z += delta * 0.4 * speed;
+    }
+
     if (particlesRef.current) {
       particlesRef.current.rotation.y += delta * 0.2 * speed;
       particlesRef.current.rotation.x += delta * 0.1 * speed;
@@ -161,94 +162,98 @@ export function PlaygroundScene({
 
   return (
     <group position={[0, 0, 0]}>
-      {/* Central Interactive 3D Mesh */}
-      <mesh ref={meshRef} scale={1.55}>
-        {geometryType === "torus" && (
-          <torusKnotGeometry
-            args={[
-              0.75,
-              0.26,
-              quality === "eco" ? 96 : 160,
-              quality === "eco" ? 20 : 36,
-              2,
-              3,
-            ]}
+      {/* 1. Main 3D Shape with Selected Shader Material */}
+      <mesh ref={meshRef} geometry={baseGeometry} scale={1.4}>
+        {/* Mode 0: HOLOGRAPHIC IRIDESCENT GLASS */}
+        {shaderMode === "holographic" && (
+          <meshPhysicalMaterial
+            color={colorTheme}
+            emissive={colorTheme}
+            emissiveIntensity={0.5}
+            roughness={0.15}
+            metalness={0.1}
+            transmission={0.45}
+            ior={1.6}
+            iridescence={1.0}
+            iridescenceIOR={1.4}
+            clearcoat={1.0}
+            clearcoatRoughness={0.1}
+            wireframe={wireframe}
+            transparent={true}
+            opacity={0.92}
           />
         )}
-        {geometryType === "icosahedron" && (
-          <icosahedronGeometry args={[1.15, quality === "eco" ? 2 : 4]} />
+
+        {/* Mode 1: RGB CYBER NORMALS */}
+        {shaderMode === "normals" && (
+          <meshNormalMaterial wireframe={wireframe} />
         )}
-        {geometryType === "sphere" && (
-          <sphereGeometry args={[1.05, segments, segments]} />
-        )}
-        {geometryType === "vortex" && (
-          <torusGeometry
-            args={[0.95, 0.35, quality === "eco" ? 24 : 48, quality === "eco" ? 48 : 96]}
+
+        {/* Mode 2: CYBER MATRIX SCANLINE */}
+        {shaderMode === "cyber" && (
+          <meshStandardMaterial
+            color="#05050a"
+            emissive={colorTheme}
+            emissiveIntensity={1.8}
+            roughness={0.3}
+            metalness={0.7}
+            wireframe={wireframe}
           />
         )}
-        {geometryType === "saturn" && (
-          <sphereGeometry args={[0.85, segments, segments]} />
-        )}
 
-        <shaderMaterial
-          ref={materialRef}
-          vertexShader={playgroundVertexShader}
-          fragmentShader={playgroundFragmentShader}
-          uniforms={uniforms}
-          transparent={true}
-          wireframe={wireframe}
-        />
-      </mesh>
-
-      {/* Saturn Orbital Ring Disk (Special geometry) */}
-      {geometryType === "saturn" && (
-        <mesh rotation={[Math.PI / 2.5, 0, 0]} scale={1.6}>
-          <ringGeometry args={[1.2, 1.8, 48]} />
+        {/* Mode 3: METALLIC LIQUID CHROME */}
+        {shaderMode === "chrome" && (
           <meshStandardMaterial
             color={colorTheme}
             emissive={colorTheme}
-            emissiveIntensity={0.8}
+            emissiveIntensity={0.35}
+            roughness={0.05}
+            metalness={0.95}
+            wireframe={wireframe}
+          />
+        )}
+      </mesh>
+
+      {/* 2. Saturn Planetary Ring Disk */}
+      {geometryType === "saturn" && (
+        <mesh
+          ref={saturnDiskRef}
+          rotation={[Math.PI / 2.6, 0, 0]}
+          scale={1.65}
+        >
+          <ringGeometry args={[1.15, 1.85, 48]} />
+          <meshStandardMaterial
+            color={colorTheme}
+            emissive={colorTheme}
+            emissiveIntensity={0.7}
             side={THREE.DoubleSide}
             transparent
-            opacity={0.7}
+            opacity={0.8}
             wireframe={wireframe}
           />
         </mesh>
       )}
 
-      {/* Glowing Inner Energy Core (for Icosahedron and Torus) */}
-      {(geometryType === "icosahedron" || geometryType === "torus") && (
-        <mesh ref={innerCoreRef} scale={0.6}>
-          <octahedronGeometry args={[0.8, 0]} />
-          <meshBasicMaterial
-            color={colorTheme}
-            wireframe={true}
-            transparent
-            opacity={0.8}
-          />
-        </mesh>
-      )}
-
-      {/* Orbiting Quantum Neon Halo Rings */}
-      <mesh ref={ring1Ref} scale={2.35}>
+      {/* 3. Orbiting Quantum Halo Rings */}
+      <mesh ref={ring1Ref} scale={2.4}>
         <torusGeometry args={[1.0, 0.015, 12, 48]} />
         <meshBasicMaterial
           color={colorTheme}
           transparent
-          opacity={0.5}
+          opacity={0.45}
         />
       </mesh>
 
-      <mesh ref={ring2Ref} scale={2.7} rotation={[Math.PI / 2, 0, 0]}>
+      <mesh ref={ring2Ref} scale={2.75} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.0, 0.012, 12, 48]} />
         <meshBasicMaterial
           color={secondaryColor}
           transparent
-          opacity={0.35}
+          opacity={0.3}
         />
       </mesh>
 
-      {/* Galaxy Particle Cloud */}
+      {/* 4. Galaxy Dust Particle System */}
       <points ref={particlesRef}>
         <bufferGeometry>
           <bufferAttribute
