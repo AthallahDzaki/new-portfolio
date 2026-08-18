@@ -93,7 +93,7 @@ export function Navigation() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-40 transition-all duration-300 px-4 sm:px-8 py-4 safe-top",
+          "fixed top-0 left-0 right-0 z-40 transition-all duration-300 px-4 sm:px-8 py-4",
           scrolled
             ? "bg-[#050505]/80 backdrop-blur-md border-b border-white/10"
             : "bg-transparent"
@@ -175,7 +175,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-30 bg-[#050505] flex flex-col justify-between p-6 pt-24 pb-8 md:hidden safe-top safe-bottom overflow-y-auto"
+            className="fixed inset-0 z-30 bg-[#050505] flex flex-col justify-between p-6 pt-24 pb-8 md:hidden overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"

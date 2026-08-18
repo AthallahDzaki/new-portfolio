@@ -46,7 +46,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-32 sm:pt-28 pb-8 safe-top safe-bottom select-none overflow-hidden"
+      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-32 sm:pt-28 pb-8 select-none overflow-hidden"
     >
       {/* Main Editorial Content - Positioned naturally with clean mobile clearance */}
       <motion.div

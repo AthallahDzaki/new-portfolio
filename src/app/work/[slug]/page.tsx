@@ -95,7 +95,7 @@ export default async function ProjectPage({ params }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-[#00F0FF]/30 safe-top safe-bottom">
+    <div className="min-h-screen bg-[#050505] text-white selection:bg-[#00F0FF]/30">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
