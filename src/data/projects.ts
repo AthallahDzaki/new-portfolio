@@ -15,7 +15,7 @@ export const projects: Project[] = [
     technologies: ["Next.js", "Three.js", "React Three Fiber", "GLSL", "GSAP", "Tailwind CSS"],
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
     githubUrl: "https://github.com/AthallahDzaki/aurora-experience",
-    liveUrl: "https://aurora.athallahdzaki.dev",
+    liveUrl: "https://aurora.athallahdzaki.my.id",
     featured: true,
     color: "#00F0FF",
     challenges: [
@@ -47,7 +47,7 @@ export const projects: Project[] = [
     technologies: ["React", "Three.js", "Web Audio API", "GLSL", "TypeScript"],
     image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
     githubUrl: "https://github.com/AthallahDzaki/nexus-spatial",
-    liveUrl: "https://nexus.athallahdzaki.dev",
+    liveUrl: "https://nexus.athallahdzaki.my.id",
     featured: true,
     color: "#7928CA",
     challenges: [
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Storybook"],
     image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop",
     githubUrl: "https://github.com/AthallahDzaki/chrono-ui",
-    liveUrl: "https://chrono-ui.athallahdzaki.dev",
+    liveUrl: "https://chrono-ui.athallahdzaki.my.id",
     featured: true,
     color: "#00DF8F",
     challenges: [
@@ -107,7 +107,7 @@ export const projects: Project[] = [
     technologies: ["Next.js", "React Three Fiber", "Three.js", "PostgreSQL", "Tailwind CSS"],
     image: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop",
     githubUrl: "https://github.com/AthallahDzaki/quantum-3d",
-    liveUrl: "https://quantum.athallahdzaki.dev",
+    liveUrl: "https://quantum.athallahdzaki.my.id",
     featured: false,
     color: "#FF0080",
     challenges: [

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://athallahdzaki.dev"),
+  metadataBase: new URL("https://athallahdzaki.my.id"),
   title: "Athallah Dzaki Anggoro Seputro — Creative Developer",
   description:
     "Portfolio of Athallah Dzaki Anggoro Seputro, a creative developer building modern, interactive and immersive web experiences.",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://athallahdzaki.dev",
+    url: "https://athallahdzaki.my.id",
     title: "Athallah Dzaki Anggoro Seputro — Creative Developer",
     description:
       "Interactive 3D Portfolio showcasing creative web development, Three.js, WebGL and high performance digital experiences.",

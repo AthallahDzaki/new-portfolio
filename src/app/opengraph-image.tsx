@@ -91,7 +91,7 @@ export default function Image() {
           }}
         >
           <div>JAKARTA, INDONESIA</div>
-          <div style={{ color: "#00F0FF" }}>ATHALLAHDZAKI.DEV</div>
+          <div style={{ color: "#00F0FF" }}>ATHALLAHDZAKI.MY.ID</div>
         </div>
       </div>
     ),
