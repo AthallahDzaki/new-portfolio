@@ -51,10 +51,10 @@ export function Footer() {
             {/* Live Clock */}
             <div className="p-3 bg-white/5 border border-white/10 font-mono text-xs">
               <div className="text-white/40 uppercase text-[10px]">
-                JAKARTA, ID / GMT+7
+                MALANG, ID / GMT+7
               </div>
               <div className="text-[#00F0FF] font-semibold text-sm mt-0.5">
-                {time || "13:30:00"}
+                {time || "14:15:00"}
               </div>
             </div>
 

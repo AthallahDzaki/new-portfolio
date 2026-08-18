@@ -133,6 +133,34 @@ export default async function ProjectPage({ params }: PageProps) {
               <span>Launch Live Project</span>
             </Button>
           )}
+          {project.slug === "sa-chaos-platform" && (
+            <div className="flex flex-wrap gap-2 w-full pt-2">
+              <a
+                href="https://sa-chaos.id/classic-edition"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-2 font-mono text-xs uppercase bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/15 transition-all"
+              >
+                🎮 Classic Edition →
+              </a>
+              <a
+                href="https://sa-chaos.id/definitive-edition"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-2 font-mono text-xs uppercase bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/15 transition-all"
+              >
+                ⚡ Definitive Edition →
+              </a>
+              <a
+                href="https://sa-chaos.id/chaos-find-the-route"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-2 font-mono text-xs uppercase bg-white/5 hover:bg-[#00F0FF] hover:text-black border border-white/15 transition-all"
+              >
+                🏔️ Find The Route →
+              </a>
+            </div>
+          )}
           {project.githubUrl && (
             <Button
               variant="outline"
@@ -141,7 +169,7 @@ export default async function ProjectPage({ params }: PageProps) {
               external
             >
               <Github className="w-4 h-4" />
-              <span>Inspect Source Code</span>
+              <span>Inspect GitHub Profile</span>
             </Button>
           )}
         </div>

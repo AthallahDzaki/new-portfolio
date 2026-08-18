@@ -3,33 +3,33 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { Code, Compass, Layers, Zap } from "lucide-react";
+import { Code, Compass, Layers, Zap, GraduationCap, Briefcase, MapPin } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const PILLARS = [
   {
     icon: Code,
-    title: "Creative Coding",
+    title: "Creative Coding & 3D",
     description:
-      "Crafting bespoke WebGL shaders, interactive 3D physics, and procedural particle systems with Three.js.",
+      "Membangun WebGL shaders, Three.js 3D web applications, MMD Animation loaders, dan game interaktif real-time.",
   },
   {
     icon: Zap,
-    title: "Performance First",
+    title: "High-Performance Systems",
     description:
-      "Targeting 60 FPS across low-power mobile devices and high-end screens with adaptive DPR and memory management.",
+      "Menargetkan 60 FPS di perangkat smartphone low-end maupun desktop melalui optimasi GPU, memoization, dan lightweight rendering.",
   },
   {
     icon: Layers,
-    title: "Modern Architecture",
+    title: "Modern Fullstack Web",
     description:
-      "Engineering type-safe Next.js systems, server components, and responsive design tokens.",
+      "Mengembangkan arsitektur Next.js & React type-safe, WebSocket real-time event streaming, dan integrasi API yang tangguh.",
   },
   {
     icon: Compass,
-    title: "Accessible Interaction",
+    title: "Real-World Engineering",
     description:
-      "Bridging rich 3D graphics with standard WAI-ARIA keyboard navigation and full screen-reader fallbacks.",
+      "Pengalaman nyata mengembangkan produk production seperti SA-Chaos.id, solusi web di SIDIGI.asia, dan arthabonsai.com.",
   },
 ];
 
@@ -71,29 +71,35 @@ export function AboutSection() {
           </h2>
 
           <p className="text-lg sm:text-xl text-white/80 font-light leading-relaxed">
-            A Creative Developer and Frontend Engineer based in Jakarta, Indonesia. I specialize in merging technical engineering with design aesthetics to build immersive, performant, and memorable digital experiences.
+            A Creative Developer and Frontend Web Engineer based in <span className="text-white font-medium">Malang, Indonesia</span>. Currently pursuing Computer Science at <span className="text-[#00F0FF] font-medium">ITN Malang</span> and working as a Frontend Developer at <span className="text-[#00F0FF] font-medium">SIDIGI.asia</span>.
           </p>
 
           <p className="text-sm sm:text-base text-white/60 font-light leading-relaxed">
-            With a strong foundation in modern React and Three.js, I treat the web canvas as a creative playground—engineering custom shaders, spatial interactions, and fluid typography that work seamlessly on both mobile smartphones and ultra-wide desktop monitors.
+            Spesialis dalam menghubungkan rekayasa web modern (<span className="text-white font-medium">Next.js & React</span>) dengan grafika 3D interaktif (<span className="text-white font-medium">Three.js & WebGL</span>). Saya juga merupakan founder dan lead developer dari platform <a href="https://sa-chaos.id" target="_blank" rel="noopener noreferrer" className="text-[#00F0FF] underline hover:text-white transition-colors">SA-Chaos.id</a>—ekosistem mod interaktif GTA San Andreas untuk streamer TikTok dengan ratusan efek real-time.
           </p>
 
           {/* Quick Info Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10 font-mono text-xs">
             <div>
-              <div className="text-white/40 uppercase mb-1">LOCATION</div>
-              <div className="text-white font-medium">Jakarta, ID</div>
+              <div className="text-white/40 uppercase mb-1 flex items-center gap-1.5">
+                <MapPin className="w-3 h-3 text-[#00F0FF]" />
+                LOCATION
+              </div>
+              <div className="text-white font-medium">Malang, Indonesia</div>
             </div>
             <div>
-              <div className="text-white/40 uppercase mb-1">FOCUS</div>
-              <div className="text-[#00F0FF] font-medium">Three.js & Next.js</div>
+              <div className="text-white/40 uppercase mb-1 flex items-center gap-1.5">
+                <Briefcase className="w-3 h-3 text-[#00F0FF]" />
+                WORK
+              </div>
+              <div className="text-[#00F0FF] font-medium">SIDIGI.asia</div>
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <div className="text-white/40 uppercase mb-1">STATUS</div>
-              <div className="text-emerald-400 font-medium flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
-                Available 2026
+              <div className="text-white/40 uppercase mb-1 flex items-center gap-1.5">
+                <GraduationCap className="w-3 h-3 text-[#00F0FF]" />
+                EDUCATION
               </div>
+              <div className="text-white font-medium">ITN Malang</div>
             </div>
           </div>
         </div>
@@ -106,7 +112,7 @@ export function AboutSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4"
         >
-          {PILLARS.map((pillar, idx) => {
+          {PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
               <motion.div
