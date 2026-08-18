@@ -46,26 +46,26 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-32 sm:pt-36 md:pt-40 pb-12 safe-top safe-bottom select-none overflow-hidden"
+      className="relative min-h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-8 safe-top safe-bottom select-none overflow-hidden"
     >
-      {/* Main Center Editorial Content */}
+      {/* Main Editorial Content - Positioned naturally in the upper-middle area */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-7xl mx-auto my-auto py-6 sm:py-10 flex flex-col items-start justify-center"
+        className="w-full max-w-7xl mx-auto flex flex-col items-start justify-start pt-2 sm:pt-4 pb-4"
       >
         {/* Status & Tech Pill */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap items-center gap-2.5 mb-6"
+          className="flex flex-wrap items-center gap-2.5 mb-5"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.15)]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] border border-[#00F0FF]/30 text-white font-mono text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.15)]">
             <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping inline-block" />
             <span>Creative WebGL & Three.js Engineer</span>
           </div>
 
-          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.02] border border-white/10 text-white/50 font-mono text-xs uppercase tracking-wider">
+          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/10 text-white/50 font-mono text-xs uppercase tracking-wider">
             <Cpu className="w-3.5 h-3.5 text-[#00F0FF]" />
             <span>GPU Shaders Active</span>
           </div>
@@ -74,7 +74,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         {/* Dynamic Massive Editorial Typography */}
         <motion.h1
           variants={itemVariants}
-          className="text-hero-title tracking-tight text-white uppercase max-w-5xl"
+          className="text-hero-title tracking-tight text-white uppercase max-w-5xl leading-[0.95]"
         >
           ATHALLAH DZAKI
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/30 font-medium tracking-tight mt-1 text-[0.8em]">
@@ -85,7 +85,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         {/* Core Statement */}
         <motion.p
           variants={itemVariants}
-          className="text-subtitle text-white/70 max-w-2xl mt-6 md:mt-8 font-light leading-relaxed"
+          className="text-subtitle text-white/70 max-w-2xl mt-5 md:mt-6 font-light leading-relaxed"
         >
           Engineering the next generation of web applications through{" "}
           <span className="text-[#00F0FF] font-semibold underline decoration-[#00F0FF]/40 underline-offset-4">
@@ -99,7 +99,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         {/* Live Metrics Strip */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap items-center gap-3 sm:gap-6 mt-6 pt-6 border-t border-white/10 font-mono text-[11px] text-white/60"
+          className="flex flex-wrap items-center gap-3 sm:gap-6 mt-5 pt-5 border-t border-white/10 font-mono text-[11px] text-white/60"
         >
           <div className="flex items-center gap-2">
             <Activity className="w-3.5 h-3.5 text-emerald-400" />
@@ -114,7 +114,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         {/* Action Buttons */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap items-center gap-4 mt-8 md:mt-10 w-full sm:w-auto"
+          className="flex flex-wrap items-center gap-4 mt-7 md:mt-8 w-full sm:w-auto"
         >
           <Button
             variant="primary"
@@ -142,7 +142,7 @@ export function HeroSection({ onDistortChange }: HeroSectionProps) {
         variants={itemVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-6 border-t border-white/10 font-mono text-xs text-white/50"
+        className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-4 border-t border-white/10 font-mono text-xs text-white/50"
       >
         <div className="flex items-center gap-3">
           <span className="text-[#00F0FF]">{"// SCROLL TO EXPLORE EXPERIENCE"}</span>
