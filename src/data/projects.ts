@@ -88,7 +88,7 @@ export const projects: Project[] = [
       "Official website and botanical e-commerce platform for master bonsai collections, cultivation tools, and care accessories ('Bring Your Joi').",
     fullDescription:
       "A fullstack web development internship project for Artha Bonsai. Engineered an elegant, responsive digital platform showcasing master bonsai specimens, an e-commerce catalog of cultivation tools and specialized accessories, and a botanical consultation request system for bonsai enthusiasts.",
-    year: 2025,
+    year: 2026,
     role: "Fullstack Web Developer Intern",
     technologies: [
       "React",

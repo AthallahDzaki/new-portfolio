@@ -3,6 +3,29 @@ import { ExperienceItem } from "@/types";
 export const experiences: ExperienceItem[] = [
   {
     id: "exp-01",
+    year: "2026",
+    period: "FEBRUARY — JUNE 2026",
+    role: "Fullstack Web Developer Intern",
+    company: "Artha Bonsai (arthabonsai.com)",
+    location: "Indonesia",
+    description:
+      "Engineered and deployed the official production website for arthabonsai.com, delivering a responsive botanical showcase, e-commerce catalog of premium bonsai trees and tools, and structured database management.",
+    technologies: [
+      "React",
+      "TypeScript",
+      "PHP",
+      "MySQL",
+      "Tailwind CSS",
+      "Vite",
+      "Responsive UI",
+    ],
+    achievements: [
+      "Built high-performance, responsive galleries with optimized image compression for high-res botanical photography.",
+      "Completed fullstack deliverables ahead of schedule and successfully deployed to the official production domain.",
+    ],
+  },
+  {
+    id: "exp-02",
     year: "2025",
     period: "JULY 2025 — PRESENT",
     role: "Fullstack Web Developer",
@@ -27,7 +50,7 @@ export const experiences: ExperienceItem[] = [
     ],
   },
   {
-    id: "exp-02",
+    id: "exp-03",
     year: "2025",
     period: "2025 — PRESENT",
     role: "Founder & Lead Fullstack Developer",
@@ -47,29 +70,6 @@ export const experiences: ExperienceItem[] = [
     achievements: [
       "Platform actively utilized by dozens of gaming livestreamers on TikTok Indonesia with hundreds of thousands of total viewers.",
       "Engineered real-time socket middleware achieving sub-100ms trigger latency directly inside the running game engine.",
-    ],
-  },
-  {
-    id: "exp-03",
-    year: "2025",
-    period: "FEBRUARY — JUNE 2025",
-    role: "Fullstack Web Developer Intern",
-    company: "Artha Bonsai (arthabonsai.com)",
-    location: "Indonesia",
-    description:
-      "Engineered and deployed the official production website for arthabonsai.com, delivering a responsive botanical showcase, e-commerce catalog of premium bonsai trees and tools, and structured database management.",
-    technologies: [
-      "React",
-      "TypeScript",
-      "PHP",
-      "MySQL",
-      "Tailwind CSS",
-      "Vite",
-      "Responsive UI",
-    ],
-    achievements: [
-      "Built high-performance, responsive galleries with optimized image compression for high-res botanical photography.",
-      "Completed fullstack deliverables ahead of schedule and successfully deployed to the official production domain.",
     ],
   },
   {
