@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./Experience";
+import { usePerformance } from "@/context/PerformanceContext";
 
 interface ThreeCanvasProps {
   scrollProgress?: number;
@@ -12,6 +13,7 @@ interface ThreeCanvasProps {
 export function ThreeCanvas({ scrollProgress = 0, children }: ThreeCanvasProps) {
   const [hasWebGL, setHasWebGL] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const { dpr, quality } = usePerformance();
 
   useEffect(() => {
     setMounted(true);
@@ -38,10 +40,10 @@ export function ThreeCanvas({ scrollProgress = 0, children }: ThreeCanvasProps) 
     >
       <Canvas
         camera={{ position: [0, 0, 6], fov: 45, near: 0.1, far: 100 }}
-        dpr={[1, 1.5]}
+        dpr={dpr}
         gl={{
-          powerPreference: "high-performance",
-          antialias: true,
+          powerPreference: quality === "eco" ? "low-power" : "high-performance",
+          antialias: quality !== "eco",
           alpha: true,
           stencil: false,
           depth: true,

@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { PlaygroundScene, GeometryType } from "@/three/playground/PlaygroundScene";
+import { usePerformance } from "@/context/PerformanceContext";
 import {
   Activity,
   RotateCw,
@@ -32,8 +33,9 @@ export function PlaygroundSection({
   controls,
   onChangeControls,
 }: PlaygroundSectionProps) {
+  const { quality, dpr } = usePerformance();
   const [geometryType, setGeometryType] = useState<GeometryType>("sphere");
-  const [particlesCount, setParticlesCount] = useState(600);
+  const [particlesCount, setParticlesCount] = useState(quality === "eco" ? 200 : 500);
   const [resetKey, setResetKey] = useState(0);
 
   const themes = [
@@ -167,8 +169,8 @@ export function PlaygroundSection({
             <Canvas
               key={resetKey}
               camera={{ position: [0, 0, 5.5], fov: 45 }}
-              dpr={[1, 1.5]}
-              gl={{ antialias: true, alpha: true }}
+              dpr={dpr}
+              gl={{ antialias: quality !== "eco", alpha: true, powerPreference: quality === "eco" ? "low-power" : "high-performance" }}
             >
               <ambientLight intensity={0.5} />
               <pointLight

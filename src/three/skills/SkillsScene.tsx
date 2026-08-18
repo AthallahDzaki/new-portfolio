@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Skill, SkillCategory } from "@/types";
 import { SkillNode } from "./SkillNode";
@@ -21,12 +20,6 @@ export function SkillsScene({
   onSelectSkill,
 }: SkillsSceneProps) {
   const groupRef = useRef<THREE.Group>(null);
-
-  useFrame((_, delta) => {
-    if (!groupRef.current) return;
-    // Gentle hovering rotation
-    groupRef.current.rotation.y += delta * 0.05;
-  });
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>

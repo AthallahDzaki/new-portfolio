@@ -10,7 +10,6 @@ interface SkillConnectionsProps {
 }
 
 export function SkillConnections({ skills, selectedSkill }: SkillConnectionsProps) {
-  // Primary diamond connections and satellite lines
   const { primaryGeometry, secondaryGeometry } = useMemo(() => {
     const primaryPoints: number[] = [];
     const secondaryPoints: number[] = [];
@@ -20,14 +19,23 @@ export function SkillConnections({ skills, selectedSkill }: SkillConnectionsProp
       return s?.position ? s.position : null;
     };
 
-    // 1. Primary Diamond Topology: (E - A - Top - B - D) & (A - Bottom - B)
+    // 1. Primary Diamond Topology:
+    // Left-to-Center: [Node.js] -> [React]
+    // Top Arm Left: [React] -> [R3F] -> [Three.js]
+    // Top Arm Right: [Three.js] -> [GLSL] -> [Next.js]
+    // Bottom Arm Left: [React] -> [GSAP]
+    // Bottom Arm Right: [GSAP] -> [Tailwind] -> [Next.js]
+    // Center-to-Right: [Next.js] -> [Git]
     const primaryEdges = [
-      ["nodejs", "react"],      // E - A
-      ["react", "threejs"],     // A - Top
-      ["react", "gsap"],        // A - Bottom
-      ["nextjs", "threejs"],    // B - Top
-      ["nextjs", "gsap"],       // B - Bottom
-      ["nextjs", "git"],        // B - D
+      ["nodejs", "react"],       // E - A
+      ["react", "r3f"],
+      ["r3f", "threejs"],        // A - Top
+      ["threejs", "glsl"],
+      ["glsl", "nextjs"],        // Top - B
+      ["react", "gsap"],         // A - Bottom
+      ["gsap", "tailwind"],
+      ["tailwind", "nextjs"],    // Bottom - B
+      ["nextjs", "git"],         // B - D
     ];
 
     primaryEdges.forEach(([srcId, tgtId]) => {
@@ -38,13 +46,10 @@ export function SkillConnections({ skills, selectedSkill }: SkillConnectionsProp
       }
     });
 
-    // 2. Secondary Satellite Connections
+    // 2. Secondary Vertical Satellite Drops
     const secondaryEdges = [
       ["nodejs", "postgresql"],
       ["react", "typescript"],
-      ["threejs", "r3f"],
-      ["threejs", "glsl"],
-      ["gsap", "tailwind"],
       ["git", "figma"],
     ];
 
@@ -78,17 +83,17 @@ export function SkillConnections({ skills, selectedSkill }: SkillConnectionsProp
         <lineBasicMaterial
           color="#00F0FF"
           transparent={true}
-          opacity={selectedSkill ? 0.6 : 0.45}
+          opacity={selectedSkill ? 0.75 : 0.55}
           linewidth={2}
         />
       </lineSegments>
 
-      {/* Secondary Sub-Node Lines */}
+      {/* Secondary Sub-Node Drops */}
       <lineSegments geometry={secondaryGeometry}>
         <lineBasicMaterial
           color="#00F0FF"
           transparent={true}
-          opacity={selectedSkill ? 0.35 : 0.2}
+          opacity={selectedSkill ? 0.45 : 0.3}
           linewidth={1}
         />
       </lineSegments>

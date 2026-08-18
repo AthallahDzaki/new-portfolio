@@ -11,6 +11,7 @@ import { SkillCategoryFilters } from "./SkillCategoryFilters";
 import { SkillFallbackGrid } from "./SkillFallbackGrid";
 import { SkillDetailModal } from "./SkillDetailModal";
 import { SkillsScene } from "@/three/skills/SkillsScene";
+import { usePerformance } from "@/context/PerformanceContext";
 import { Sparkles, MousePointerClick, Orbit, LayoutGrid, RotateCcw } from "lucide-react";
 
 interface SkillsSectionProps {
@@ -22,6 +23,7 @@ export function SkillsSection({
   selectedSkill,
   onSelectSkill,
 }: SkillsSectionProps) {
+  const { quality, dpr } = usePerformance();
   const [selectedCategory, setSelectedCategory] = useState<SkillCategory | "all">("all");
   const [viewMode, setViewMode] = useState<"graph" | "grid">("graph");
   const [resetKey, setResetKey] = useState(0);
@@ -102,22 +104,22 @@ export function SkillsSection({
           <div className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
             <Canvas
               key={resetKey}
-              camera={{ position: [0, 0, 7.2], fov: 45 }}
-              dpr={[1, 1.5]}
-              gl={{ antialias: true, alpha: true }}
+              camera={{ position: [0, 0, 5.8], fov: 40 }}
+              dpr={dpr}
+              gl={{ antialias: quality !== "eco", alpha: true, powerPreference: "low-power" }}
             >
-              <ambientLight intensity={0.6} />
-              <pointLight position={[0, 4, 3]} intensity={2.5} color="#00F0FF" />
-              <pointLight position={[-4, -3, 2]} intensity={1.8} color="#7928CA" />
-              <pointLight position={[4, -3, 2]} intensity={1.8} color="#00F0FF" />
+              <ambientLight intensity={0.7} />
+              <pointLight position={[0, 3, 3]} intensity={2.0} color="#00F0FF" />
+              <pointLight position={[-3, -2, 2]} intensity={1.5} color="#7928CA" />
+              <pointLight position={[3, -2, 2]} intensity={1.5} color="#00F0FF" />
 
               <OrbitControls
                 enableZoom={false}
                 enablePan={false}
-                rotateSpeed={0.6}
+                rotateSpeed={0.5}
                 dampingFactor={0.08}
-                maxPolarAngle={Math.PI / 1.7}
-                minPolarAngle={Math.PI / 2.4}
+                maxPolarAngle={Math.PI / 1.8}
+                minPolarAngle={Math.PI / 2.2}
               />
 
               <Suspense fallback={null}>

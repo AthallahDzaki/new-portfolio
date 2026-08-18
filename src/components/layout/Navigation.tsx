@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { socials } from "@/data/socials";
+import { QualitySettingsSwitcher } from "@/components/ui/QualitySettingsSwitcher";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -121,8 +122,9 @@ export function Navigation() {
             })}
           </nav>
 
-          {/* Desktop CTA / Availability */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* Desktop CTA / Availability & Quality Switcher */}
+          <div className="hidden lg:flex items-center gap-3">
+            <QualitySettingsSwitcher />
             <div className="flex items-center gap-2 font-mono text-[11px] text-white/60 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               AVAILABLE FOR WORK
@@ -135,15 +137,19 @@ export function Navigation() {
             </button>
           </div>
 
-          {/* Mobile Menu Toggle Button (Min 44x44px touch area) */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden flex items-center justify-center w-11 h-11 text-white border border-white/15 bg-white/5 active:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00F0FF]"
-            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={isOpen}
-          >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile Right Controls */}
+          <div className="flex lg:hidden items-center gap-2">
+            <QualitySettingsSwitcher />
+            {/* Mobile Menu Toggle Button (Min 44x44px touch area) */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden flex items-center justify-center w-11 h-11 text-white border border-white/15 bg-white/5 active:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00F0FF]"
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </header>
 

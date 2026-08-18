@@ -1,17 +1,21 @@
 import { Skill } from "@/types";
 
 /**
- * Diamond Constellation Graph Topology (Based on user diagram):
- *          [Top: Three.js / GLSL]
- *                 /     \
- *                /       \
- * [E: Backend] - [A: React]    [B: Next.js] - [D: Tools/Git]
- *                \       /
- *                 \     /
- *          [Bottom: GSAP / Motion]
+ * Pixel-perfect Diamond Constellation Graph Topology (Matching User Diagram):
+ *
+ *                     [Three.js (Top)]
+ *                       /         \
+ *                   [R3F]         [GLSL]
+ *                    /               \
+ * [Node.js (E)] -- [React (A)]     [Next.js (B)] -- [Git (D)]
+ *    |                 |               /                |
+ * [Postgres]      [TypeScript]    [Tailwind]         [Figma]
+ *                      \               /
+ *                       \             /
+ *                         [GSAP (C)]
  */
 export const skills: Skill[] = [
-  // TOP CLUSTER (*) — Creative 3D & Shaders
+  // 1. TOP HUB (*) — 3D Creative Core
   {
     id: "threejs",
     name: "Three.js",
@@ -28,7 +32,7 @@ export const skills: Skill[] = [
       "Creative coding experiments",
     ],
     relatedSkills: ["React Three Fiber", "GLSL & Shaders", "React"],
-    position: [0, 1.8, 0],
+    position: [0, 1.05, 0],
   },
   {
     id: "r3f",
@@ -44,8 +48,8 @@ export const skills: Skill[] = [
       "State-synchronized 3D UI components",
       "Performance-optimized render loops",
     ],
-    relatedSkills: ["Three.js", "React", "Next.js"],
-    position: [-0.85, 1.15, 0.2],
+    relatedSkills: ["Three.js", "React"],
+    position: [-0.55, 0.52, 0],
   },
   {
     id: "glsl",
@@ -62,10 +66,10 @@ export const skills: Skill[] = [
       "Real-time reactive GPU visual effects",
     ],
     relatedSkills: ["Three.js", "Next.js"],
-    position: [0.85, 1.15, 0.2],
+    position: [0.55, 0.52, 0],
   },
 
-  // CENTER-LEFT CLUSTER (A) — Frontend Core
+  // 2. CENTER-LEFT HUB (A) — Frontend Core
   {
     id: "react",
     name: "React",
@@ -81,7 +85,7 @@ export const skills: Skill[] = [
       "Performance tuning and re-render elimination",
     ],
     relatedSkills: ["Three.js", "Node.js", "GSAP & ScrollTrigger", "TypeScript"],
-    position: [-1.4, 0, 0],
+    position: [-1.1, 0, 0],
   },
   {
     id: "typescript",
@@ -98,10 +102,10 @@ export const skills: Skill[] = [
       "Zero-overhead maintainable codebases",
     ],
     relatedSkills: ["React", "Next.js"],
-    position: [-1.4, -0.95, 0.3],
+    position: [-1.1, -0.65, 0],
   },
 
-  // CENTER-RIGHT CLUSTER (B) — Fullstack & Next.js Architecture
+  // 3. CENTER-RIGHT HUB (B) — Fullstack Architecture
   {
     id: "nextjs",
     name: "Next.js",
@@ -117,10 +121,10 @@ export const skills: Skill[] = [
       "API endpoints and edge serverless routes",
     ],
     relatedSkills: ["Three.js", "GSAP & ScrollTrigger", "Git & GitHub"],
-    position: [1.4, 0, 0],
+    position: [1.1, 0, 0],
   },
 
-  // BOTTOM CLUSTER (C) — Motion & Styling
+  // 4. BOTTOM HUB (C) — Motion & Systems
   {
     id: "gsap",
     name: "GSAP & ScrollTrigger",
@@ -136,7 +140,7 @@ export const skills: Skill[] = [
       "Smooth kinetic interface transitions",
     ],
     relatedSkills: ["React", "Next.js", "Tailwind CSS"],
-    position: [0, -1.8, 0],
+    position: [0, -1.05, 0],
   },
   {
     id: "tailwind",
@@ -153,10 +157,10 @@ export const skills: Skill[] = [
       "Zero-runtime optimized CSS payloads",
     ],
     relatedSkills: ["GSAP & ScrollTrigger", "Next.js"],
-    position: [0, -2.45, -0.2],
+    position: [0.55, -0.52, 0],
   },
 
-  // FAR-LEFT CLUSTER (E) — Backend & Database
+  // 5. FAR-LEFT HUB (E) — Backend & Database
   {
     id: "nodejs",
     name: "Node.js",
@@ -171,7 +175,7 @@ export const skills: Skill[] = [
       "Authentication and security middleware",
     ],
     relatedSkills: ["React", "PostgreSQL"],
-    position: [-3.2, 0, 0],
+    position: [-2.6, 0, 0],
   },
   {
     id: "postgresql",
@@ -187,10 +191,10 @@ export const skills: Skill[] = [
       "Performance query optimization",
     ],
     relatedSkills: ["Node.js"],
-    position: [-3.7, 0.85, -0.2],
+    position: [-2.6, 0.65, 0],
   },
 
-  // FAR-RIGHT CLUSTER (D) — Tools & Design
+  // 6. FAR-RIGHT HUB (D) — Tools & Design
   {
     id: "git",
     name: "Git & GitHub",
@@ -205,7 +209,7 @@ export const skills: Skill[] = [
       "Team code reviews and PR management",
     ],
     relatedSkills: ["Next.js", "Figma & UI/UX"],
-    position: [3.2, 0, 0],
+    position: [2.6, 0, 0],
   },
   {
     id: "figma",
@@ -221,6 +225,6 @@ export const skills: Skill[] = [
       "Mobile-first interface specifications",
     ],
     relatedSkills: ["Git & GitHub"],
-    position: [3.7, 0.85, -0.2],
+    position: [2.6, 0.65, 0],
   },
 ];

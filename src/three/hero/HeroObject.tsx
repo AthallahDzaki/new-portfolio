@@ -4,6 +4,7 @@ import React, { useRef, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { heroVertexShader, heroFragmentShader } from "../shaders/noiseShader";
+import { usePerformance } from "@/context/PerformanceContext";
 
 interface HeroObjectProps {
   distortion?: number;
@@ -16,6 +17,7 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
   const ring2Ref = useRef<THREE.Mesh>(null);
   const particlesRef = useRef<THREE.Points>(null);
 
+  const { quality, segments, particlesCount } = usePerformance();
   const { viewport, pointer } = useThree();
   const isMobile = viewport.width < 5;
 
@@ -31,9 +33,9 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
     [distortion]
   );
 
-  // Background Ambient Dust Particles
+  // Background Ambient Dust Particles adapted to quality
   const { particlePositions, particleColors } = useMemo(() => {
-    const count = isMobile ? 300 : 700;
+    const count = isMobile ? Math.floor(particlesCount * 0.5) : particlesCount;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
     const cyan = new THREE.Color("#00F0FF");
@@ -55,7 +57,7 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
     }
 
     return { particlePositions: positions, particleColors: colors };
-  }, [isMobile]);
+  }, [particlesCount, isMobile]);
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
@@ -73,9 +75,9 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
       meshRef.current.rotation.x += delta * 0.15;
       meshRef.current.rotation.y += delta * 0.22;
 
-      // Subtle mouse tracking
-      const targetRotX = pointer.y * 0.3;
-      const targetRotY = pointer.x * 0.3;
+      // Mouse tracking
+      const targetRotX = pointer.y * 0.25;
+      const targetRotY = pointer.x * 0.25;
       meshRef.current.rotation.x = THREE.MathUtils.lerp(
         meshRef.current.rotation.x,
         meshRef.current.rotation.x + targetRotX * 0.05,
@@ -90,28 +92,28 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
 
     if (ring1Ref.current) {
       ring1Ref.current.rotation.z += delta * 0.3;
-      ring1Ref.current.rotation.x = Math.sin(t * 0.4) * 0.5;
+      ring1Ref.current.rotation.x = Math.sin(t * 0.4) * 0.4;
     }
 
     if (ring2Ref.current) {
       ring2Ref.current.rotation.y += delta * 0.35;
-      ring2Ref.current.rotation.z = Math.cos(t * 0.4) * 0.5;
+      ring2Ref.current.rotation.z = Math.cos(t * 0.4) * 0.4;
     }
 
     if (particlesRef.current) {
-      particlesRef.current.rotation.y += delta * 0.08;
-      particlesRef.current.rotation.x += delta * 0.04;
+      particlesRef.current.rotation.y += delta * 0.06;
+      particlesRef.current.rotation.x += delta * 0.03;
     }
   });
 
   const scale = isMobile ? 1.35 : 1.85;
-  const segments = isMobile ? 48 : 96;
+  const segs = isMobile ? Math.floor(segments * 0.6) : segments;
 
   return (
     <group position={[0, 0, 0]}>
       {/* Signature Organic Deforming Sphere */}
       <mesh ref={meshRef} scale={scale}>
-        <sphereGeometry args={[1, segments, segments]} />
+        <sphereGeometry args={[1, segs, segs]} />
         <shaderMaterial
           ref={materialRef}
           vertexShader={heroVertexShader}
@@ -123,15 +125,17 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
       </mesh>
 
       {/* Orbiting Quantum Neon Rings */}
-      <mesh ref={ring1Ref} scale={scale * 1.4} rotation={[Math.PI / 3, 0, 0]}>
-        <torusGeometry args={[1.0, 0.008, 16, 80]} />
+      <mesh ref={ring1Ref} scale={scale * 1.35} rotation={[Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[1.0, 0.008, 12, 48]} />
         <meshBasicMaterial color="#00F0FF" transparent opacity={0.35} />
       </mesh>
 
-      <mesh ref={ring2Ref} scale={scale * 1.6} rotation={[0, Math.PI / 3, 0]}>
-        <torusGeometry args={[1.0, 0.006, 16, 80]} />
-        <meshBasicMaterial color="#7928CA" transparent opacity={0.25} />
-      </mesh>
+      {quality !== "eco" && (
+        <mesh ref={ring2Ref} scale={scale * 1.55} rotation={[0, Math.PI / 3, 0]}>
+          <torusGeometry args={[1.0, 0.006, 12, 48]} />
+          <meshBasicMaterial color="#7928CA" transparent opacity={0.25} />
+        </mesh>
+      )}
 
       {/* Ambient Particle Galaxy */}
       <points ref={particlesRef}>
@@ -146,10 +150,10 @@ export function HeroObject({ distortion = 1.0 }: HeroObjectProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={isMobile ? 0.025 : 0.032}
+          size={isMobile ? 0.022 : 0.028}
           vertexColors={true}
           transparent={true}
-          opacity={0.65}
+          opacity={0.6}
           blending={THREE.AdditiveBlending}
         />
       </points>

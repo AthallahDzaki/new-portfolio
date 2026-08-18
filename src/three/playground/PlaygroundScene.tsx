@@ -4,6 +4,7 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { heroVertexShader, heroFragmentShader } from "../shaders/noiseShader";
+import { usePerformance } from "@/context/PerformanceContext";
 
 export type GeometryType = "sphere" | "torus" | "icosahedron" | "cylinder";
 
@@ -24,6 +25,7 @@ export function PlaygroundScene({
   geometryType,
   particlesCount,
 }: PlaygroundSceneProps) {
+  const { segments, quality } = usePerformance();
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const particlesRef = useRef<THREE.Points>(null);
@@ -43,7 +45,7 @@ export function PlaygroundScene({
     [distortion, colorTheme]
   );
 
-  // Particles Cloud Geometry
+  // Particles Cloud Geometry adapted to quality
   const { particlePositions, particleColors } = useMemo(() => {
     const count = particlesCount;
     const positions = new Float32Array(count * 3);
@@ -109,16 +111,33 @@ export function PlaygroundScene({
       {/* Central Interactive Morphing Mesh */}
       <mesh ref={meshRef} scale={1.6}>
         {geometryType === "sphere" && (
-          <sphereGeometry args={[1, 96, 96]} />
+          <sphereGeometry args={[1, segments, segments]} />
         )}
         {geometryType === "torus" && (
-          <torusKnotGeometry args={[0.7, 0.28, 160, 32, 2, 3]} />
+          <torusKnotGeometry
+            args={[
+              0.7,
+              0.28,
+              quality === "eco" ? 64 : 128,
+              quality === "eco" ? 16 : 32,
+              2,
+              3,
+            ]}
+          />
         )}
         {geometryType === "icosahedron" && (
-          <icosahedronGeometry args={[1.1, 4]} />
+          <icosahedronGeometry args={[1.1, quality === "eco" ? 2 : 4]} />
         )}
         {geometryType === "cylinder" && (
-          <cylinderGeometry args={[0.8, 0.8, 1.6, 64, 64]} />
+          <cylinderGeometry
+            args={[
+              0.8,
+              0.8,
+              1.6,
+              quality === "eco" ? 32 : 64,
+              quality === "eco" ? 32 : 64,
+            ]}
+          />
         )}
 
         <shaderMaterial
@@ -133,7 +152,7 @@ export function PlaygroundScene({
 
       {/* Orbiting Quantum Rings */}
       <mesh ref={ringRef1} scale={2.4}>
-        <torusGeometry args={[1.0, 0.015, 16, 100]} />
+        <torusGeometry args={[1.0, 0.015, 12, 48]} />
         <meshBasicMaterial
           color={colorTheme}
           transparent
@@ -142,15 +161,17 @@ export function PlaygroundScene({
         />
       </mesh>
 
-      <mesh ref={ringRef2} scale={2.8} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.0, 0.012, 16, 100]} />
-        <meshBasicMaterial
-          color={colorTheme}
-          transparent
-          opacity={0.25}
-          wireframe={wireframe}
-        />
-      </mesh>
+      {quality !== "eco" && (
+        <mesh ref={ringRef2} scale={2.8} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[1.0, 0.012, 12, 48]} />
+          <meshBasicMaterial
+            color={colorTheme}
+            transparent
+            opacity={0.25}
+            wireframe={wireframe}
+          />
+        </mesh>
+      )}
 
       {/* Galaxy Particle Cloud */}
       <points ref={particlesRef}>
@@ -165,10 +186,10 @@ export function PlaygroundScene({
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.035}
+          size={0.032}
           vertexColors={true}
           transparent={true}
-          opacity={0.8}
+          opacity={0.75}
           blending={THREE.AdditiveBlending}
         />
       </points>
